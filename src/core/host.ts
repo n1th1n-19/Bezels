@@ -443,10 +443,46 @@ export class Host {
   }
 
   // ---------- Live view ----------
-  subscribe(sub: FrameSub) { this.subs.add(sub); this.lastUsed = Date.now(); if (this.status === 'live') this.startCast(); else this.active().then(() => this.startCast(), () => {}); return () => { this.subs.delete(sub); if (!this.subs.size) this.stopCast(); }; }
+  // Headless Chromium's screencast never exceeds CSS resolution, and its frames are downscaled with a cheap filter.
+  // So: fast screencast frames while the page moves, then one crisp device-resolution frame once it settles.
+  // The browser then downsamples that to the on-screen size with a good filter, like a real screenshot.
+  subscribe(sub: FrameSub) {
+    const before = this.maxSize();
+    this.subs.add(sub);
+    this.lastUsed = Date.now();
+    if (this.status !== 'live') this.active().then(() => this.startCast(), () => {});
+    else if (this.castRunning && (sub.maxW > before.w || sub.maxH > before.h)) this.restartCast();
+    else this.startCast();
+    return () => { this.subs.delete(sub); clearTimeout(this.settleTimer); if (!this.subs.size) this.stopCast(); };
+  }
   hasSubscribers() { return this.subs.size > 0; }
 
   private maxSize() { let w = 0, h = 0; for (const s of this.subs) { w = Math.max(w, s.maxW); h = Math.max(h, s.maxH); } return { w: Math.round(w), h: Math.round(h) }; }
+  private settleTimer?: NodeJS.Timeout;
+  private castParams?: { format: 'jpeg'; quality: number; maxWidth: number; maxHeight: number; everyNthFrame: number };
+
+  /**
+   * Sharp frame on Chromium. A screenshot taken mid-screencast makes headless Chromium stop reporting real repaints,
+   * so pause the screencast, capture at the emulated DPR via CDP (doesn't touch device metrics), then resume.
+   * The resumed screencast re-sends the current picture once; echoUntil keeps that from scheduling another sharp shot.
+   */
+  private async sharpChromium(): Promise<Buffer | null> {
+    const cdp = this.cdp!;
+    const casting = this.castRunning && this.castParams;
+    if (casting) await cdp.send('Page.stopScreencast').catch(() => {});
+    const r = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 88, optimizeForSpeed: true }).catch(() => null);
+    this.echoUntil = Date.now() + 400;
+    this.echoCount = 0;
+    if (casting && this.castRunning) await cdp.send('Page.startScreencast', this.castParams!).catch(() => {});
+    return r ? Buffer.from(r.data, 'base64') : null;
+  }
+  private echoUntil = 0;
+  private echoCount = 0;
+  /** After motion stops, replace the last (soft) frame with a sharp one. */
+  private settle(ms = 220) {
+    clearTimeout(this.settleTimer);
+    this.settleTimer = setTimeout(() => { if (this.castRunning) this.pushStill(false, true); }, ms);
+  }
 
   startCast() {
     if (this.castRunning || !this.page || !this.subs.size) return;
@@ -455,11 +491,22 @@ export class Host {
     if (this.cdp) {
       const cdp = this.cdp;
       let last = 0;
+      let lastCast: Buffer | undefined;
       if (this.castHandler) cdp.off('Page.screencastFrame', this.castHandler);
       this.castHandler = async (f) => {
         const buf = Buffer.from(f.data, 'base64');
-        const meta = { w: Math.round(f.metadata.deviceWidth ?? this.layout.viewport.w), h: Math.round(f.metadata.deviceHeight ?? this.layout.viewport.h) };
-        for (const s of this.subs) s.send(meta, buf);
+        // Identical bytes = nothing changed (e.g. the frame our own sharp capture triggers). Skipping
+        // those stops the sharp-capture → frame → sharp-capture loop and saves bandwidth when idle.
+        // The resumed screencast re-sends the current picture right after a sharp capture. That soft echo
+        // must not replace the sharp frame. Several frames inside the window = real change: sharpen again after it.
+        const echo = Date.now() < this.echoUntil && this.lastInput < this.echoUntil - 400;
+        if (echo) { if (++this.echoCount > 1) this.settle(450); }
+        else if (!lastCast?.equals(buf)) {
+          lastCast = buf;
+          const meta = { w: Math.round(f.metadata.deviceWidth ?? this.layout.viewport.w), h: Math.round(f.metadata.deviceHeight ?? this.layout.viewport.h) };
+          for (const s of this.subs) s.send(meta, buf);
+          this.settle();
+        }
         // Ack-based: the next frame is only produced after this ack, so frames never queue. The delay caps fps.
         const wait = Math.max(0, minGap - (Date.now() - last));
         last = Date.now();
@@ -467,16 +514,21 @@ export class Host {
         cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId }).catch(() => {});
       };
       cdp.on('Page.screencastFrame', this.castHandler);
-      const m = this.maxSize();
-      cdp.send('Page.startScreencast', { format: 'jpeg', quality: 65, maxWidth: m.w || undefined, maxHeight: m.h || undefined, everyNthFrame: 1 }).catch(() => { this.castRunning = false; });
-      // Screencast only emits on change; send one frame now so a fresh subscriber isn't blank.
-      this.pushStill();
+      // Never ask for less than CSS size: Chromium's own downscale is what made text mushy.
+      this.castParams = { format: 'jpeg', quality: 80, maxWidth: this.layout.viewport.w, maxHeight: this.layout.viewport.h, everyNthFrame: 1 };
+      cdp.send('Page.startScreencast', this.castParams).catch(() => { this.castRunning = false; });
+      // Screencast only emits on change; send a sharp frame now so a fresh subscriber isn't blank or soft.
+      this.pushStill(false, true);
     } else {
-      // WebKit has no screencast: poll JPEG screenshots. Skip-if-busy, faster right after input, slow when idle.
+      // WebKit has no screencast: poll cheap CSS-size shots to detect change (skip-if-busy, faster after input),
+      // and send a sharp device-resolution frame once the page has stopped changing.
+      let dirty = true;
       const loop = async () => {
         if (!this.castRunning) return;
         const t0 = Date.now();
-        await this.pushStill(true);
+        const changed = await this.pushStill(true, false);
+        if (changed) dirty = true;
+        else if (dirty) { dirty = false; await this.pushStill(false, true); }
         const recent = Date.now() - this.lastInput < 2500;
         const gap = recent ? Math.max(minGap, 160) : 1000;
         this.pollTimer = setTimeout(loop, Math.max(30, gap - (Date.now() - t0)));
@@ -485,20 +537,33 @@ export class Host {
     }
   }
 
-  private async pushStill(dedupe = false) {
-    if (!this.page || this.status !== 'live') return;
-    const buf = await this.page.screenshot({ type: 'jpeg', quality: 62, scale: 'css', timeout: 4000, animations: 'allow', caret: 'initial' }).catch(() => null);
-    if (!buf) return;
-    if (dedupe && this.lastFrame?.equals(buf)) return;
-    this.lastFrame = dedupe ? buf : undefined;
-    const meta = { w: this.layout.viewport.w, h: this.layout.viewport.h };
+  /** Push one frame. `sharp` = device pixel ratio (capped by what's on screen); else CSS size. Returns true if sent. */
+  private async pushStill(dedupe = false, sharp = false): Promise<boolean> {
+    if (!this.page || this.status !== 'live') return false;
+    const vp = this.layout.viewport;
+    // Device scale only helps if the on-screen frame is bigger than CSS size, or the page is downsampled anyway (DPR > 1).
+    const scale = sharp && this.device.dpr > 1 ? 'device' : 'css';
+    // Chromium: CDP captures at the emulated DPR without touching device metrics. Playwright's
+    // scale:'device' screenshot re-applies metrics, which emits screencast frames (an endless
+    // sharp-shot → frame → sharp-shot loop) and can stall the screencast.
+    const buf = sharp && this.cdp
+      ? await this.sharpChromium()
+      : await this.page.screenshot({ type: 'jpeg', quality: sharp ? 88 : 72, scale, timeout: 4000, animations: 'allow', caret: 'initial' }).catch(() => null);
+    if (!buf) return false;
+    if (dedupe) {
+      if (this.lastFrame?.equals(buf)) return false;
+      this.lastFrame = buf;
+    }
+    const meta = { w: vp.w, h: vp.h };
     for (const s of this.subs) s.send(meta, buf);
+    return true;
   }
 
   stopCast() {
     if (!this.castRunning) return;
     this.castRunning = false;
     clearTimeout(this.pollTimer);
+    clearTimeout(this.settleTimer);
     this.lastFrame = undefined;
     this.cdp?.send('Page.stopScreencast').catch(() => {});
     if (this.castHandler) this.cdp?.off('Page.screencastFrame', this.castHandler);
