@@ -28,7 +28,7 @@ while [ $# -gt 0 ]; do
 done
 
 # ---------- output helpers ----------
-if [ -t 1 ]; then B=$'\e[1m' D=$'\e[2m' G=$'\e[32m' Y=$'\e[33m' R=$'\e[31m' C=$'\e[36m' X=$'\e[0m'; else B= D= G= Y= R= C= X=; fi
+if [ -t 1 ]; then B=$'\e[1m' D=$'\e[2m' G=$'\e[32m' Y=$'\e[33m' R=$'\e[31m' C=$'\e[36m' X=$'\e[0m'; else B='' D='' G='' Y='' R='' C='' X=''; fi
 LOG="$(mktemp -t bezels-install.XXXXXX.log)"
 STEP=0 TOTAL=0
 ok()   { printf "  ${G}✓${X} %s\n" "$*"; }
@@ -158,7 +158,7 @@ if [ "$NEED_SYSDEPS" = 1 ]; then
     ok "already installed"
   else
     if [ "$MISSING" = UNKNOWN ] || [ -z "$MISSING" ]; then APT=(npx --yes playwright install-deps webkit); printf "  needs: ${C}playwright install-deps webkit${X} ${D}(couldn't detect the exact list)${X}\n"
-    else APT=(apt-get install -y --no-install-recommends $MISSING); printf "  needs: ${C}%s${X}\n" "$MISSING"; fi
+    else read -ra PKGS <<<"$MISSING"; APT=(apt-get install -y --no-install-recommends "${PKGS[@]}"); printf "  needs: ${C}%s${X}\n" "$MISSING"; fi
     # Ask for the sudo password up front, so it doesn't fight the progress spinner.
     if have sudo && ask "  Install with sudo?" y && { [ "$YES" = 0 ] && sudo -v </dev/tty || sudo -n true 2>/dev/null; }; then
       STEP=$((STEP - 1)); run "Installing WebKit system libraries (sudo)" sudo env "PATH=$PATH" "${APT[@]}"
