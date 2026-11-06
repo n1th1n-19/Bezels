@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/* Theme tokens from the handoff (README). Fonts: Inter + JetBrains Mono with system fallbacks (no network needed). */
+@theme {
+  --color-bg: #0E0F12;
+  --color-panel: #15171C;
+  --color-raised: #1B1E24;
+  --color-line: #2A2E36;
+  --color-line2: #3A3F48;
+  --color-text: #ECEEF2;
+  --color-muted: #A3AAB6;
+  --color-soft: #C4CAD4;
+  --color-accent: #7AA7FF;
+  --color-accentbg: #1E2A40;
+  --color-accentfg: #CFE0FF;
+  --color-ok: #5BD69A;
+  --color-okbg: #17251E;
+  --color-okline: #23503A;
+  --color-okfg: #A6EBC6;
+  --color-warn: #FFB062;
+  --color-warnbg: #1E1912;
+  --color-warnline: #4A3A24;
+  --color-err: #FF7A7A;
+  --color-errsolid: #C93A3A;
+  --color-errbg: #1F1616;
+  --color-errline: #4A2A2A;
+  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+html, body, #root { height: 100%; }
+body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-sans); font-size: 13px; -webkit-font-smoothing: antialiased; overflow: hidden; }
+a { color: var(--color-accent); }
+a:hover { color: #A9C6FF; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #2A2E36; border-radius: 5px; border: 2px solid transparent; background-clip: padding-box; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+.dots { background-color: var(--color-bg); background-image: radial-gradient(#22262D 1px, transparent 1px); background-size: 20px 20px; }
+kbd { font-family: var(--font-mono); font-size: 11px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--color-line); border-bottom-width: 2px; background: var(--color-raised); color: var(--color-text); white-space: nowrap; }
+.tgline { outline: 1.5px dashed #7AA7FF; outline-offset: -1.5px; }
+@media (prefers-reduced-motion: no-preference) { .fade-in { animation: fi .15s ease-out; } @keyframes fi { from { opacity: 0; transform: translateY(-4px); } } }

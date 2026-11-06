@@ -1,0 +1,50 @@
+{
+  "name": "bezels",
+  "version": "0.1.0",
+  "description": "Real-device responsive tester and agent browser for Claude Code",
+  "type": "module",
+  "bin": {
+    "bezels": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && vite build ui && chmod +x dist/cli.js",
+    "build:core": "tsc -p tsconfig.json",
+    "build:ui": "vite build ui",
+    "dev:ui": "vite ui",
+    "serve": "node dist/cli.js serve",
+    "test": "npm run build:core && node --test dist/test/*.test.js",
+    "bench": "npm run build:core && node dist/scripts/bench.js",
+    "browsers": "playwright install chromium webkit",
+    "devices:json": "node dist/cli.js devices --json > devices.json"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "axe-core": "^4.14.0",
+    "playwright": "^1.64.1",
+    "source-map-js": "^1.2.2",
+    "ws": "^8.22.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/ws": "^8.18.2",
+    "@vitejs/plugin-react": "^6.1.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  },
+  "files": [
+    "dist",
+    "ui/dist",
+    "README.md",
+    "devices.json"
+  ]
+}

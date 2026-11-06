@@ -1,0 +1,3270 @@
+[
+  {
+    "id": "iphone-se",
+    "name": "iPhone SE",
+    "short": "SE",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 375,
+      "h": 667
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 20,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 99,
+        "collapsedTop": 0,
+        "collapsedBottom": 24,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 44,
+        "collapsedTop": 22,
+        "collapsedBottom": 0,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 20,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": true,
+    "mobile": true,
+    "source": "PW iPhone SE (3rd gen); APL 1334×750 @2"
+  },
+  {
+    "id": "iphone-13-mini",
+    "name": "iPhone 13 mini",
+    "short": "13 mini",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 375,
+      "h": 812
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 50,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 50,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "notch",
+    "cornerRadius": 47,
+    "touch": true,
+    "mobile": true,
+    "source": "PW iPhone 13 Mini; APL 2340×1080 @3"
+  },
+  {
+    "id": "iphone-14",
+    "name": "iPhone 14",
+    "short": "14",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 390,
+      "h": 844
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 47,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 47,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "notch",
+    "cornerRadius": 47,
+    "touch": true,
+    "mobile": true,
+    "source": "PW iPhone 14; APL 2532×1170 @3"
+  },
+  {
+    "id": "iphone-15",
+    "name": "iPhone 15",
+    "short": "15",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 393,
+      "h": 852
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 59,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 59,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "PW iPhone 15; APL 2556×1179 @3"
+  },
+  {
+    "id": "iphone-15-pro-max",
+    "name": "iPhone 15 Pro Max",
+    "short": "15 Pro Max",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 430,
+      "h": 932
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 59,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 59,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "PW iPhone 15 Pro Max; APL 2796×1290 @3"
+  },
+  {
+    "id": "iphone-16",
+    "name": "iPhone 16",
+    "short": "16",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 393,
+      "h": 852
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 59,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 59,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2556×1179 @3"
+  },
+  {
+    "id": "iphone-16-plus",
+    "name": "iPhone 16 Plus",
+    "short": "16 Plus",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 430,
+      "h": 932
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 59,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 59,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2796×1290 @3"
+  },
+  {
+    "id": "iphone-16-pro",
+    "name": "iPhone 16 Pro",
+    "short": "16 Pro",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 402,
+      "h": 874
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 62,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 62,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2622×1206 @3; safe top 62 per HIG"
+  },
+  {
+    "id": "iphone-16-pro-max",
+    "name": "iPhone 16 Pro Max",
+    "short": "16 Pro Max",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 440,
+      "h": 956
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 62,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 62,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2868×1320 @3"
+  },
+  {
+    "id": "iphone-16e",
+    "name": "iPhone 16e",
+    "short": "16e",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 390,
+      "h": 844
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 47,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 47,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "notch",
+    "cornerRadius": 47,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2532×1170 @3"
+  },
+  {
+    "id": "iphone-17",
+    "name": "iPhone 17",
+    "short": "17",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 402,
+      "h": 874
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 62,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 62,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2622×1206 @3"
+  },
+  {
+    "id": "iphone-air",
+    "name": "iPhone Air",
+    "short": "Air",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 420,
+      "h": 912
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 68,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 68,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2736×1260 @3; safe top ≈"
+  },
+  {
+    "id": "iphone-17-pro",
+    "name": "iPhone 17 Pro",
+    "short": "17 Pro",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 402,
+      "h": 874
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 62,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 62,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2622×1206 @3"
+  },
+  {
+    "id": "iphone-17-pro-max",
+    "name": "iPhone 17 Pro Max",
+    "short": "17 Pro Max",
+    "category": "phone",
+    "os": "ios",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 440,
+      "h": 956
+    },
+    "dpr": 3,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+      "chrome": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 62,
+    "browserChrome": {
+      "safari": {
+        "top": 0,
+        "bottom": 133,
+        "collapsedTop": 0,
+        "collapsedBottom": 58,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 50,
+        "bottom": 78,
+        "collapsedTop": 22,
+        "collapsedBottom": 34,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 62,
+      "bottom": 34,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "island",
+    "cornerRadius": 55,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2868×1320 @3"
+  },
+  {
+    "id": "pixel-7",
+    "name": "Pixel 7",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 915
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PW Pixel 7"
+  },
+  {
+    "id": "pixel-7-pro",
+    "name": "Pixel 7 Pro",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 892
+    },
+    "dpr": 3.5,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1440×3120 ÷ 3.5"
+  },
+  {
+    "id": "pixel-8",
+    "name": "Pixel 8",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 915
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1080×2400 ÷ 2.625"
+  },
+  {
+    "id": "pixel-8-pro",
+    "name": "Pixel 8 Pro",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 448,
+      "h": 998
+    },
+    "dpr": 3,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1344×2992 ÷ 3"
+  },
+  {
+    "id": "pixel-9",
+    "name": "Pixel 9",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 923
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1080×2424 ÷ 2.625"
+  },
+  {
+    "id": "pixel-9-pro",
+    "name": "Pixel 9 Pro",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 410,
+      "h": 914
+    },
+    "dpr": 3.125,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1280×2856 ÷ 3.125"
+  },
+  {
+    "id": "pixel-9-pro-xl",
+    "name": "Pixel 9 Pro XL",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 448,
+      "h": 997
+    },
+    "dpr": 3,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1344×2992 ÷ 3"
+  },
+  {
+    "id": "galaxy-s23",
+    "name": "Galaxy S23",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 360,
+      "h": 780
+    },
+    "dpr": 3,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "CDT Samsung Galaxy S20-class; PANEL 1080×2340 ÷ 3"
+  },
+  {
+    "id": "galaxy-s23-ultra",
+    "name": "Galaxy S23 Ultra",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 384,
+      "h": 824
+    },
+    "dpr": 3.75,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1440×3088 ÷ 3.75"
+  },
+  {
+    "id": "galaxy-s24",
+    "name": "Galaxy S24",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 360,
+      "h": 780
+    },
+    "dpr": 3,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1080×2340 ÷ 3"
+  },
+  {
+    "id": "galaxy-s24-ultra",
+    "name": "Galaxy S24 Ultra",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 384,
+      "h": 824
+    },
+    "dpr": 3.75,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1440×3120 ÷ 3.75"
+  },
+  {
+    "id": "galaxy-s25",
+    "name": "Galaxy S25",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 360,
+      "h": 780
+    },
+    "dpr": 3,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1080×2340 ÷ 3"
+  },
+  {
+    "id": "galaxy-s25-ultra",
+    "name": "Galaxy S25 Ultra",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 891
+    },
+    "dpr": 3.5,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1440×3120 ÷ 3.5"
+  },
+  {
+    "id": "galaxy-a55",
+    "name": "Galaxy A55",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 384,
+      "h": 832
+    },
+    "dpr": 2.8125,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1080×2340 ÷ 2.8125"
+  },
+  {
+    "id": "galaxy-a15",
+    "name": "Galaxy A15",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 892
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1080×2340 ÷ 2.625"
+  },
+  {
+    "id": "galaxy-a05",
+    "name": "Galaxy A05",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 360,
+      "h": 800
+    },
+    "dpr": 2,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 720×1600 ÷ 2"
+  },
+  {
+    "id": "oneplus-12",
+    "name": "OnePlus 12",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 905
+    },
+    "dpr": 3.5,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1440×3168 ÷ 3.5"
+  },
+  {
+    "id": "oneplus-nord-4",
+    "name": "OnePlus Nord 4",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 915
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1080×2400 ÷ 2.625 (≈)"
+  },
+  {
+    "id": "redmi-note-13",
+    "name": "Redmi Note 13",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 393,
+      "h": 873
+    },
+    "dpr": 2.75,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1080×2400 ÷ 2.75"
+  },
+  {
+    "id": "xiaomi-14",
+    "name": "Xiaomi 14",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 400,
+      "h": 890
+    },
+    "dpr": 3,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1200×2670 ÷ 3"
+  },
+  {
+    "id": "android-360",
+    "name": "Generic 360",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 360,
+      "h": 800
+    },
+    "dpr": 3,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "Most common Android CSS size (StatCounter)"
+  },
+  {
+    "id": "android-412",
+    "name": "Generic 412",
+    "category": "phone",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 915
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 28,
+    "touch": true,
+    "mobile": true,
+    "source": "Most common large Android CSS size"
+  },
+  {
+    "id": "galaxy-z-fold-5",
+    "name": "Galaxy Z Fold 5",
+    "category": "foldable",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 690,
+      "h": 829
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL cover 904×2316, main 1812×2176 ÷ 2.625",
+    "fold": {
+      "foldedScreen": {
+        "w": 344,
+        "h": 882
+      },
+      "unfoldedScreen": {
+        "w": 690,
+        "h": 829
+      },
+      "hinge": {
+        "orientation": "vertical",
+        "width": 0
+      }
+    }
+  },
+  {
+    "id": "galaxy-z-fold-6",
+    "name": "Galaxy Z Fold 6",
+    "category": "foldable",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 707,
+      "h": 823
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL cover 968×2376, main 1856×2160 ÷ 2.625",
+    "fold": {
+      "foldedScreen": {
+        "w": 369,
+        "h": 905
+      },
+      "unfoldedScreen": {
+        "w": 707,
+        "h": 823
+      },
+      "hinge": {
+        "orientation": "vertical",
+        "width": 0
+      }
+    }
+  },
+  {
+    "id": "galaxy-z-flip-5",
+    "name": "Galaxy Z Flip 5",
+    "category": "foldable",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 1006
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL main 1080×2640 ÷ 2.625; cover 720×748",
+    "fold": {
+      "foldedScreen": {
+        "w": 274,
+        "h": 285
+      },
+      "unfoldedScreen": {
+        "w": 412,
+        "h": 1006
+      },
+      "hinge": {
+        "orientation": "horizontal",
+        "width": 0
+      }
+    }
+  },
+  {
+    "id": "galaxy-z-flip-6",
+    "name": "Galaxy Z Flip 6",
+    "category": "foldable",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 412,
+      "h": 1006
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 56,
+        "bottom": 48,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL main 1080×2640 ÷ 2.625; cover 720×748",
+    "fold": {
+      "foldedScreen": {
+        "w": 274,
+        "h": 285
+      },
+      "unfoldedScreen": {
+        "w": 412,
+        "h": 1006
+      },
+      "hinge": {
+        "orientation": "horizontal",
+        "width": 0
+      }
+    }
+  },
+  {
+    "id": "pixel-fold",
+    "name": "Pixel Fold",
+    "category": "foldable",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 841,
+      "h": 701
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL outer 1080×2092, inner 2208×1840 ÷ 2.625",
+    "fold": {
+      "foldedScreen": {
+        "w": 412,
+        "h": 797
+      },
+      "unfoldedScreen": {
+        "w": 841,
+        "h": 701
+      },
+      "hinge": {
+        "orientation": "vertical",
+        "width": 0
+      }
+    }
+  },
+  {
+    "id": "pixel-9-pro-fold",
+    "name": "Pixel 9 Pro Fold",
+    "category": "foldable",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 791,
+      "h": 820
+    },
+    "dpr": 2.625,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL outer 1080×2424, inner 2076×2152 ÷ 2.625",
+    "fold": {
+      "foldedScreen": {
+        "w": 412,
+        "h": 923
+      },
+      "unfoldedScreen": {
+        "w": 791,
+        "h": 820
+      },
+      "hinge": {
+        "orientation": "vertical",
+        "width": 0
+      }
+    }
+  },
+  {
+    "id": "oneplus-open",
+    "name": "OnePlus Open",
+    "category": "foldable",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome"
+    ],
+    "screen": {
+      "w": 813,
+      "h": 756
+    },
+    "dpr": 3,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 56,
+        "bottom": 0,
+        "collapsedTop": 0,
+        "collapsedBottom": 0,
+        "landscapeTop": 56,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "punch-hole",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL outer 1116×2484 ÷ 2.625, inner 2440×2268 ÷ 3 (≈)",
+    "fold": {
+      "foldedScreen": {
+        "w": 425,
+        "h": 946
+      },
+      "unfoldedScreen": {
+        "w": 813,
+        "h": 756
+      },
+      "hinge": {
+        "orientation": "vertical",
+        "width": 0
+      }
+    }
+  },
+  {
+    "id": "ipad-mini",
+    "name": "iPad mini",
+    "category": "tablet",
+    "os": "ipados",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 744,
+      "h": 1133
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (iPad; CPU OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "safari": {
+        "top": 50,
+        "bottom": 0,
+        "collapsedTop": 50,
+        "collapsedBottom": 0,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 88,
+        "bottom": 0,
+        "collapsedTop": 88,
+        "collapsedBottom": 0,
+        "landscapeTop": 88,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 20,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2266×1488 @2"
+  },
+  {
+    "id": "ipad-10",
+    "name": "iPad (10th gen)",
+    "category": "tablet",
+    "os": "ipados",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 820,
+      "h": 1180
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (iPad; CPU OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "safari": {
+        "top": 50,
+        "bottom": 0,
+        "collapsedTop": 50,
+        "collapsedBottom": 0,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 88,
+        "bottom": 0,
+        "collapsedTop": 88,
+        "collapsedBottom": 0,
+        "landscapeTop": 88,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 20,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2360×1640 @2"
+  },
+  {
+    "id": "ipad-air-11",
+    "name": "iPad Air 11\"",
+    "category": "tablet",
+    "os": "ipados",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 820,
+      "h": 1180
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (iPad; CPU OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "safari": {
+        "top": 50,
+        "bottom": 0,
+        "collapsedTop": 50,
+        "collapsedBottom": 0,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 88,
+        "bottom": 0,
+        "collapsedTop": 88,
+        "collapsedBottom": 0,
+        "landscapeTop": 88,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 20,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2360×1640 @2"
+  },
+  {
+    "id": "ipad-air-13",
+    "name": "iPad Air 13\"",
+    "category": "tablet",
+    "os": "ipados",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 1024,
+      "h": 1366
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (iPad; CPU OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "safari": {
+        "top": 50,
+        "bottom": 0,
+        "collapsedTop": 50,
+        "collapsedBottom": 0,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 88,
+        "bottom": 0,
+        "collapsedTop": 88,
+        "collapsedBottom": 0,
+        "landscapeTop": 88,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 20,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2732×2048 @2"
+  },
+  {
+    "id": "ipad-pro-11",
+    "name": "iPad Pro 11\"",
+    "category": "tablet",
+    "os": "ipados",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 834,
+      "h": 1210
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (iPad; CPU OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "safari": {
+        "top": 50,
+        "bottom": 0,
+        "collapsedTop": 50,
+        "collapsedBottom": 0,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 88,
+        "bottom": 0,
+        "collapsedTop": 88,
+        "collapsedBottom": 0,
+        "landscapeTop": 88,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 20,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2420×1668 @2"
+  },
+  {
+    "id": "ipad-pro-13",
+    "name": "iPad Pro 13\"",
+    "category": "tablet",
+    "os": "ipados",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 1032,
+      "h": 1376
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (iPad; CPU OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "safari": {
+        "top": 50,
+        "bottom": 0,
+        "collapsedTop": 50,
+        "collapsedBottom": 0,
+        "landscapeTop": 50,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 88,
+        "bottom": 0,
+        "collapsedTop": 88,
+        "collapsedBottom": 0,
+        "landscapeTop": 88,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 20,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 18,
+    "touch": true,
+    "mobile": true,
+    "source": "APL 2752×2064 @2"
+  },
+  {
+    "id": "galaxy-tab-s9",
+    "name": "Galaxy Tab S9",
+    "category": "tablet",
+    "os": "android",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "samsung"
+    ],
+    "screen": {
+      "w": 800,
+      "h": 1280
+    },
+    "dpr": 2,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "samsung": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Safari/537.36"
+    },
+    "statusBarHeight": 24,
+    "browserChrome": {
+      "chrome": {
+        "top": 88,
+        "bottom": 0,
+        "collapsedTop": 88,
+        "collapsedBottom": 0,
+        "landscapeTop": 88,
+        "landscapeBottom": 0
+      },
+      "samsung": {
+        "top": 88,
+        "bottom": 0,
+        "collapsedTop": 88,
+        "collapsedBottom": 0,
+        "landscapeTop": 88,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 24,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 16,
+    "touch": true,
+    "mobile": true,
+    "source": "PANEL 1600×2560 ÷ 2"
+  },
+  {
+    "id": "surface-pro",
+    "name": "Surface Pro",
+    "category": "tablet",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 1440,
+      "h": 960
+    },
+    "dpr": 2,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": true,
+    "mobile": false,
+    "source": "PANEL 2880×1920 @200%"
+  },
+  {
+    "id": "laptop-1280",
+    "name": "Laptop 1280",
+    "category": "laptop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 1280,
+      "h": 800
+    },
+    "dpr": 1,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "Common laptop CSS size"
+  },
+  {
+    "id": "laptop-1366",
+    "name": "Laptop 1366",
+    "category": "laptop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 1366,
+      "h": 768
+    },
+    "dpr": 1,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "Most common laptop CSS size (StatCounter)"
+  },
+  {
+    "id": "laptop-1440",
+    "name": "Laptop 1440",
+    "category": "laptop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 1440,
+      "h": 900
+    },
+    "dpr": 1,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "Common laptop CSS size"
+  },
+  {
+    "id": "laptop-1536",
+    "name": "Laptop 1536",
+    "category": "laptop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 1536,
+      "h": 864
+    },
+    "dpr": 1.25,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "1920×1080 panel @125%"
+  },
+  {
+    "id": "macbook-air-13",
+    "name": "MacBook Air 13\"",
+    "category": "laptop",
+    "os": "macos",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 1470,
+      "h": 956
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "statusBarHeight": 37,
+    "navBarHeight": 0,
+    "browserChrome": {
+      "safari": {
+        "top": 52,
+        "bottom": 0,
+        "collapsedTop": 52,
+        "collapsedBottom": 0,
+        "landscapeTop": 52,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 80,
+        "bottom": 0,
+        "collapsedTop": 80,
+        "collapsedBottom": 0,
+        "landscapeTop": 80,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "APL 2940×1912 default \"looks like\""
+  },
+  {
+    "id": "macbook-air-15",
+    "name": "MacBook Air 15\"",
+    "category": "laptop",
+    "os": "macos",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 1710,
+      "h": 1112
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "statusBarHeight": 37,
+    "navBarHeight": 0,
+    "browserChrome": {
+      "safari": {
+        "top": 52,
+        "bottom": 0,
+        "collapsedTop": 52,
+        "collapsedBottom": 0,
+        "landscapeTop": 52,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 80,
+        "bottom": 0,
+        "collapsedTop": 80,
+        "collapsedBottom": 0,
+        "landscapeTop": 80,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "APL 3420×2224 default"
+  },
+  {
+    "id": "macbook-pro-14",
+    "name": "MacBook Pro 14\"",
+    "category": "laptop",
+    "os": "macos",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 1512,
+      "h": 982
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "statusBarHeight": 37,
+    "navBarHeight": 0,
+    "browserChrome": {
+      "safari": {
+        "top": 52,
+        "bottom": 0,
+        "collapsedTop": 52,
+        "collapsedBottom": 0,
+        "landscapeTop": 52,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 80,
+        "bottom": 0,
+        "collapsedTop": 80,
+        "collapsedBottom": 0,
+        "landscapeTop": 80,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "APL 3024×1964 default"
+  },
+  {
+    "id": "macbook-pro-16",
+    "name": "MacBook Pro 16\"",
+    "category": "laptop",
+    "os": "macos",
+    "defaultBrowser": "safari",
+    "browsers": [
+      "safari",
+      "chrome"
+    ],
+    "screen": {
+      "w": 1728,
+      "h": 1117
+    },
+    "dpr": 2,
+    "userAgent": {
+      "safari": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15",
+      "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "statusBarHeight": 37,
+    "navBarHeight": 0,
+    "browserChrome": {
+      "safari": {
+        "top": 52,
+        "bottom": 0,
+        "collapsedTop": 52,
+        "collapsedBottom": 0,
+        "landscapeTop": 52,
+        "landscapeBottom": 0
+      },
+      "chrome": {
+        "top": 80,
+        "bottom": 0,
+        "collapsedTop": 80,
+        "collapsedBottom": 0,
+        "landscapeTop": 80,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "APL 3456×2234 default"
+  },
+  {
+    "id": "desktop-1080",
+    "name": "Desktop 1920×1080",
+    "category": "desktop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 1920,
+      "h": 1080
+    },
+    "dpr": 1,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "FHD @100%"
+  },
+  {
+    "id": "desktop-1080-150",
+    "name": "Desktop 1080 @150%",
+    "category": "desktop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 1280,
+      "h": 720
+    },
+    "dpr": 1.5,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "FHD @150%"
+  },
+  {
+    "id": "desktop-1440",
+    "name": "Desktop 2560×1440",
+    "category": "desktop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 2560,
+      "h": 1440
+    },
+    "dpr": 1,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "QHD @100%"
+  },
+  {
+    "id": "desktop-ultrawide",
+    "name": "Ultrawide 3440×1440",
+    "category": "desktop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 3440,
+      "h": 1440
+    },
+    "dpr": 1,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "UWQHD @100%"
+  },
+  {
+    "id": "desktop-4k",
+    "name": "4K @100%",
+    "category": "desktop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 3840,
+      "h": 2160
+    },
+    "dpr": 1,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "UHD @100%"
+  },
+  {
+    "id": "desktop-4k-150",
+    "name": "4K @150%",
+    "category": "desktop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 2560,
+      "h": 1440
+    },
+    "dpr": 1.5,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "UHD @150%"
+  },
+  {
+    "id": "desktop-4k-200",
+    "name": "4K @200%",
+    "category": "desktop",
+    "os": "windows",
+    "defaultBrowser": "chrome",
+    "browsers": [
+      "chrome",
+      "edge"
+    ],
+    "screen": {
+      "w": 1920,
+      "h": 1080
+    },
+    "dpr": 2,
+    "userAgent": {
+      "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "edge": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0"
+    },
+    "statusBarHeight": 0,
+    "navBarHeight": 48,
+    "browserChrome": {
+      "chrome": {
+        "top": 87,
+        "bottom": 0,
+        "collapsedTop": 87,
+        "collapsedBottom": 0,
+        "landscapeTop": 87,
+        "landscapeBottom": 0
+      },
+      "edge": {
+        "top": 85,
+        "bottom": 0,
+        "collapsedTop": 85,
+        "collapsedBottom": 0,
+        "landscapeTop": 85,
+        "landscapeBottom": 0
+      }
+    },
+    "safeArea": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cutout": "none",
+    "cornerRadius": 0,
+    "touch": false,
+    "mobile": false,
+    "source": "UHD @200%"
+  }
+]

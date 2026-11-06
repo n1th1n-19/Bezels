@@ -1,0 +1,26 @@
+# deps & build output
+node_modules
+dist
+ui/dist
+desktop/src-tauri/target
+desktop/src-tauri/gen
+*.tsbuildinfo
+
+# runtime output
+shots
+*.har
+
+# secrets (BEZELS_TG_BOT_TOKEN lives here)
+.env
+.env.*
+!.env.example
+
+# local tooling / editor / OS
+.remember/
+.vscode/
+.idea/
+*.log
+.DS_Store
+
+# handoff material (spec + mockups), kept out of the repo
+/bezels-handoff

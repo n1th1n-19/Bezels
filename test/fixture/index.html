@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bezels fixture</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  body { margin: 0; font-family: system-ui, sans-serif; }
+  .hero { height: 100vh; background: linear-gradient(#dde3ee, #fff); padding: 16px; box-sizing: border-box; }
+  .product-row { display: flex; gap: 12px; width: 520px; }
+  .product-row div { flex: none; width: 160px; height: 90px; background: #e8ebf0; }
+  .menu { width: 32px; height: 32px; }
+  footer a { font-size: 11px; }
+  .buy { position: fixed; bottom: 0; left: 0; right: 0; height: 56px; background: #2f55d4; color: #fff; }
+  .chat { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #5bd69a; border-radius: 50%; }
+  @media (min-width: 640px) { .hero { padding: 32px; } }
+  @media (min-width: 1024px) { .hero { padding: 64px; } }
+  .scroller { overflow-y: auto; height: 80px; }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <button class="menu" aria-label="Menu">≡</button>
+    <h1>Fixture page</h1>
+    <div class="product-row"><div></div><div></div><div></div></div>
+    <div class="scroller"><p>a</p><p>b</p><p>c</p><p>d</p><p>e</p></div>
+  </section>
+  <footer><a href="#">Terms</a> <a href="#">Privacy</a></footer>
+  <div class="buy">Buy</div>
+  <div class="chat"></div>
+  <script>
+    console.log('fixture loaded');
+    console.error('fixture error for testing');
+    const tg = window.Telegram && Telegram.WebApp;
+    if (tg) {
+      tg.ready(); tg.expand();
+      tg.setHeaderColor('bg_color');
+      tg.MainButton.setText('Checkout'); tg.MainButton.show();
+      tg.HapticFeedback.impactOccurred('light');
+      tg.CloudStorage.setItem('cart', '3', () => {});
+      tg.requestFullscreen && tg.SecondaryButton && 0;
+      document.body.dataset.tg = tg.platform + ' ' + tg.version + ' ' + getComputedStyle(document.documentElement).getPropertyValue('--tg-viewport-height');
+    }
+  </script>
+</body>
+</html>
