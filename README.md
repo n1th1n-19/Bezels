@@ -19,7 +19,32 @@ One engine with three ways in:
 
 The UI and Claude Code see the same sessions. Every action goes through one method table ([src/core/rpc.ts](src/core/rpc.ts)), so anything an MCP tool can do, the UI can do too.
 
-## Setup
+## Install
+
+One line (Linux, macOS; Windows via WSL2). Needs git and Node.js 20+:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/n1th1n-19/bezels/main/install.sh | bash
+```
+
+Before touching anything it shows what's already there and what it will install, then asks to continue:
+
+| What | Size | Notes |
+|---|---|---|
+| Bezels source → `~/.bezels` | ~2 MB | re-running the installer updates it |
+| npm packages | ~150 MB | Playwright, MCP SDK, React, Vite |
+| Chromium | ~180 MB | Android + desktop devices, shared Playwright cache |
+| WebKit | ~100 MB | iPhone + iPad devices (`--no-webkit` to skip) |
+| WebKit system libraries | small | Linux only, apt + sudo, **only the packages actually missing** (shown before installing) |
+| `~/.local/bin/bezels` | tiny | launcher |
+| Claude Code MCP server | — | asks first: `claude mcp add bezels -s user …` |
+| `wl-clipboard` / `xclip` | small | optional, asks, only for `bezels shot --copy` |
+
+Prefer to read it first? `curl -fsSL https://raw.githubusercontent.com/n1th1n-19/bezels/main/install.sh -o install.sh && less install.sh && bash install.sh`
+
+Each step shows progress (download %, elapsed time). If one fails, it prints the last lines of its log. Options go after `bash -s --`: `--yes`, `--dir PATH`, `--no-webkit`, `--no-mcp`. From a clone, `./install.sh` installs in place.
+
+## Setup by hand
 
 Requires Node 20+. From source:
 

@@ -37,3 +37,23 @@ jobs:
           name: shots
           path: ci-shots/
           if-no-files-found: ignore
+
+  installer:
+    # The one-line install, piped exactly like users run it (CI has passwordless sudo, so WebKit libs get installed).
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: shellcheck
+        run: shellcheck -S warning install.sh
+      - name: curl | bash install
+        run: cat install.sh | bash -s -- --yes --no-mcp --source "$GITHUB_WORKSPACE"
+      - name: Installed command works (Chromium + WebKit)
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          bezels devices | head -3
+          bezels shot "file://$GITHUB_WORKSPACE/test/fixture/index.html" --device pixel-9 --framed
+          bezels shot "file://$GITHUB_WORKSPACE/test/fixture/index.html" --device iphone-16-pro --framed
