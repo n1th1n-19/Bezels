@@ -171,16 +171,18 @@ export function DeviceView({ session: s, device: d, zoom, primary, blockInput }:
         {primary && (L.frame.kind === 'phone' || L.frame.kind === 'tablet') && <div className="absolute inset-0 pointer-events-none" style={{ borderRadius: ring * zoom, boxShadow: '0 0 0 2px #7AA7FF' }} />}
         <div className="absolute left-0 top-0 origin-top-left" style={{ width: fr.w, height: fr.h, transform: `scale(${zoom})` }}>
           <div className="absolute inset-0" dangerouslySetInnerHTML={{ __html: fr.under }} />
+          <div className="absolute overflow-hidden" style={{ left: ox, top: oy, width: L.screen.w, height: L.screen.h, borderRadius: d.cornerRadius }}>
           <img
             ref={imgRef}
             alt={`${d.name} screen`}
             src={s.snapshot ?? 'data:image/gif;base64,R0lGODlhAQABAAAAACw='}
             draggable={false}
             className={cx('absolute select-none touch-none', inspecting && primary ? 'cursor-crosshair' : primary ? (d.touch ? 'cursor-pointer' : 'cursor-default') : 'cursor-pointer')}
-            style={{ left: ox + vp.x, top: oy + vp.y, width: vp.w, height: vp.h, background: s.state.colorScheme === 'dark' ? '#000' : '#fff', imageRendering: 'auto' }}
+            style={{ left: vp.x, top: vp.y, width: vp.w, height: vp.h, background: s.state.colorScheme === 'dark' ? '#000' : '#fff', imageRendering: 'auto' }}
             onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onWheel={onWheel}
             onContextMenu={(e) => e.preventDefault()}
           />
+          </div>
           <div className="absolute inset-0 pointer-events-none" dangerouslySetInnerHTML={{ __html: fr.over }} />
           {tg && <TelegramOverlay s={s} tg={tg} />}
           {s.error && <div className="absolute flex flex-col gap-3 items-center justify-center text-center p-6 text-err text-sm" style={{ left: ox + vp.x, top: oy + vp.y, width: vp.w, height: vp.h, background: '#1F1616f2' }}><b>Can't start this device</b><span className="text-soft text-xs break-words">{s.error}</span><Btn size="sm" variant="raised" onClick={() => act('reload', { session: s.id })}>Retry</Btn></div>}

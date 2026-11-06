@@ -19,6 +19,11 @@ const HELP = `bezels — real-device responsive tester
   bezels audit <url> --devices all [--json]
   bezels devices [--json]          list device ids
   bezels stats                     memory of a running daemon
+  bezels stop                      stop a running daemon
+  bezels update [--check]          pull the latest version, reinstall what changed, rebuild
+  bezels cleanup [--older-than 30] free space: temp files, old screenshots, unused browser revisions
+  bezels uninstall [--keep-config] remove Bezels, its command, MCP entry, settings (asks per item)
+                                   --yes: accept defaults (keeps screenshots) · --all: also delete them · --dry-run: show the plan only
 
 Uses a running daemon if one is up (sessions show in its UI), otherwise runs in-process.`;
 
@@ -37,6 +42,7 @@ async function main() {
       devices: { type: 'string' }, device: { type: 'string' }, framed: { type: 'boolean' }, plain: { type: 'boolean' }, full: { type: 'boolean' },
       out: { type: 'string' }, copy: { type: 'boolean' }, json: { type: 'boolean' }, port: { type: 'string' }, watch: { type: 'string' }, open: { type: 'string' },
       transparent: { type: 'boolean' }, dark: { type: 'boolean' }, landscape: { type: 'boolean' },
+      yes: { type: 'boolean', short: 'y' }, 'dry-run': { type: 'boolean' }, all: { type: 'boolean' }, 'keep-config': { type: 'boolean' }, 'older-than': { type: 'string' }, force: { type: 'boolean' }, check: { type: 'boolean' },
     },
   });
   if (o.port) process.env.BEZELS_PORT = o.port;
@@ -50,6 +56,12 @@ async function main() {
       if (o.open) await core.open(o.open, o.devices ?? 'iphone-16-pro', 'ui');
       const bye = async () => { await srv.close(); await core.shutdown(); process.exit(0); };
       process.on('SIGINT', bye); process.on('SIGTERM', bye);
+      return;
+    }
+    case 'stop': case 'update': case 'uninstall': case 'cleanup': {
+      const m = await import('./maint.js');
+      const mo = { yes: !!o.yes, dryRun: !!o['dry-run'], all: !!o.all, keepConfig: !!o['keep-config'], olderThan: Number(o['older-than'] ?? 30), force: !!o.force, check: !!o.check };
+      if (cmd === 'stop') await m.stop(); else await m[cmd](mo);
       return;
     }
     case 'mcp': { const { runMcp } = await import('./mcp.js'); return runMcp(); }

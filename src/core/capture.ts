@@ -81,10 +81,11 @@ export interface FrameInput { device: Device; state: DeviceState; layout: Layout
 export function framedHtml(f: FrameInput, imgName: string, bg: string | null) {
   const fr = renderFrame(f.device, f.state, f.layout, f.url, f.tg, f.title);
   const L = f.layout;
-  const x = L.frame.offsetX + L.viewport.x, y = L.frame.offsetY + L.viewport.y;
+  // The page image sits in a box clipped to the rounded screen, so it never pokes past the device body.
   const body = `<div style="position:relative;width:${fr.w}px;height:${fr.h}px">
     <div style="position:absolute;inset:0">${fr.under}</div>
-    <img src="http://bezels.local/${encodeURIComponent(imgName)}" style="position:absolute;left:${x}px;top:${y}px;width:${L.viewport.w}px;height:${L.viewport.h}px">
+    <div style="position:absolute;left:${L.frame.offsetX}px;top:${L.frame.offsetY}px;width:${L.screen.w}px;height:${L.screen.h}px;border-radius:${f.device.cornerRadius}px;overflow:hidden">
+      <img src="http://bezels.local/${encodeURIComponent(imgName)}" style="position:absolute;left:${L.viewport.x}px;top:${L.viewport.y}px;width:${L.viewport.w}px;height:${L.viewport.h}px"></div>
     <div style="position:absolute;inset:0">${fr.over}</div></div>`;
   return { html: page(body, bg), w: fr.w, h: fr.h };
 }

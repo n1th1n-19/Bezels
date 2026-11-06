@@ -44,6 +44,22 @@ Prefer to read it first? `curl -fsSL https://raw.githubusercontent.com/n1th1n-19
 
 Each step shows progress (download %, elapsed time). If one fails, it prints the last lines of its log. Options go after `bash -s --`: `--yes`, `--dir PATH`, `--no-webkit`, `--no-mcp`. From a clone, `./install.sh` installs in place.
 
+### Update, clean up, uninstall
+
+```bash
+bezels update             # shows new commits, then: git pull, npm ci (only if the lockfile changed), browsers, rebuild
+bezels update --check     # just show what's new
+bezels cleanup            # temp files, orphaned thumbnails, browser revisions no project uses; old screenshots (asks)
+bezels cleanup --older-than 7
+bezels uninstall          # lists everything with sizes, asks per item; keeps your screenshots unless you say so
+bezels stop               # stop a running Bezels (update/uninstall do this for you)
+```
+
+All of them show their plan first. `--dry-run` shows only the plan, `--yes` accepts the defaults (screenshots are never deleted by `--yes` alone; add `--all`).
+
+- **Browsers:** Playwright's cache is shared between projects. `uninstall` and `cleanup` only remove browser revisions that no other Playwright project uses.
+- **What `uninstall` keeps:** WebKit's apt libraries and Node.js. From a source checkout it also keeps the checkout itself, and only offers to remove `node_modules` and the build output.
+
 ## Setup by hand
 
 Requires Node 20+. From source:

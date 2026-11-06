@@ -329,6 +329,7 @@ export function computeLayout(
         : d.category === "tablet"
           ? "tablet"
           : "phone";
+  const homeBezel = kind === "phone" && d.os === "ios" && d.cutout === "none" ? 62 : 0;
   const bezel =
     kind === "phone"
       ? 12
@@ -355,10 +356,11 @@ export function computeLayout(
             kind,
           }
         : {
-            w: screen.w + bezel * 2,
-            h: screen.h + bezel * 2,
-            offsetX: bezel,
-            offsetY: bezel,
+            // Home-button iPhones (SE) have thick bezels above and below the screen.
+            w: screen.w + bezel * 2 + (landscape ? homeBezel * 2 : 0),
+            h: screen.h + bezel * 2 + (landscape ? 0 : homeBezel * 2),
+            offsetX: bezel + (landscape ? homeBezel : 0),
+            offsetY: bezel + (landscape ? 0 : homeBezel),
             kind,
           };
 

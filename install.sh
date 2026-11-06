@@ -13,11 +13,11 @@ set -euo pipefail
 REPO_DEFAULT="https://github.com/n1th1n-19/bezels.git"
 DIR="${BEZELS_DIR:-$HOME/.bezels}"
 SOURCE="${BEZELS_SOURCE:-$REPO_DEFAULT}"
-YES=0 WEBKIT=1 MCP=1
+YES=0 WEBKIT=1 MCP=1 DIR_SET=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --yes|-y) YES=1 ;;
-    --dir) DIR="$2"; shift ;;
+    --dir) DIR="$2"; DIR_SET=1; shift ;;
     --source) SOURCE="$2"; shift ;;
     --no-webkit) WEBKIT=0 ;;
     --no-mcp) MCP=0 ;;
@@ -93,7 +93,7 @@ ok "npm $(npm -v)"
 SCRIPT_DIR=""
 # Only when run as a file (not piped through curl), so the current directory never matters.
 [ -f "${BASH_SOURCE[0]:-}" ] && SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/package.json" ] && grep -q '"name": "bezels"' "$SCRIPT_DIR/package.json" 2>/dev/null && [ -z "${BEZELS_DIR:-}" ] && [ "$DIR" = "$HOME/.bezels" ]; then
+if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/package.json" ] && grep -q '"name": "bezels"' "$SCRIPT_DIR/package.json" 2>/dev/null && [ -z "${BEZELS_DIR:-}" ] && [ "$DIR_SET" = 0 ]; then
   DIR="$SCRIPT_DIR"; IN_PLACE=1
 else IN_PLACE=0; fi
 
@@ -203,5 +203,5 @@ printf "  Layout audit      ${C}bezels audit http://localhost:3000 --devices all
 [ "$MCP" = 1 ] && [ "$HAS_CLAUDE" = 0 ] && printf "  Claude Code       ${C}%s${X}\n" "$MCP_CMD"
 UNINSTALL="rm -rf $DIR $BIN_DIR/bezels"; [ "$HAS_CLAUDE" = 1 ] && UNINSTALL="$UNINSTALL && claude mcp remove bezels -s user"
 [ "$IN_PLACE" = 1 ] && UNINSTALL="rm $BIN_DIR/bezels"
-printf "\n  ${D}Update: run this installer again · Uninstall: %s${X}\n  ${D}Browsers stay in %s (shared with other Playwright projects).${X}\n\n" "$UNINSTALL" "$PW_CACHE"
+printf "\n  ${D}Update: bezels update · Free space: bezels cleanup · Uninstall: bezels uninstall (or: %s)${X}\n  ${D}Browsers stay in %s (shared with other Playwright projects).${X}\n\n" "$UNINSTALL" "$PW_CACHE"
 rm -f "$LOG"

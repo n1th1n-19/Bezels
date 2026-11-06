@@ -86,9 +86,10 @@ export function renderFrame(
   }
 
   // Screen background
-  u.push(
-    `<g transform="${T(0, 0)}"><rect width="${sw}" height="${sh}" rx="${r}" fill="${dark ? "#000" : "#FFF"}"/>`,
-  );
+  // Clip everything drawn on the screen to its rounded shape (square corners would poke past the body).
+  const clipId = `scr-${d.id}-${s.orientation}-${sw}x${sh}`;
+  u.push(`<defs><clipPath id="${clipId}"><rect width="${sw}" height="${sh}" rx="${r}"/></clipPath></defs>`);
+  u.push(`<g transform="${T(0, 0)}"><g clip-path="url(#${clipId})"><rect width="${sw}" height="${sh}" rx="${r}" fill="${dark ? "#000" : "#FFF"}"/>`);
 
   // Status bar / OS menu bar
   if (L.statusBar) {
@@ -155,7 +156,7 @@ export function renderFrame(
         );
       } else
         u.push(
-          `<text x="${sw / 2}" y="${c.h / 2 + 4}" font-size="11" text-anchor="middle" fill="${muted}" font-family="Inter,system-ui">${hostText}</text>`,
+          `<text x="${sw / 2}" y="${c.h / 2 + 4}" font-size="11" text-anchor="middle" fill="${muted}" font-family="Inter,system-ui">${esc(fit(host(url), sw * 1.2))}</text>`,
         );
       u.push(`</g>`);
     }
@@ -169,7 +170,7 @@ export function renderFrame(
     );
     if (s.browser === "safari" && inner > 60) {
       u.push(
-        `<rect x="14" y="8" width="${sw - 28}" height="44" rx="14" fill="${pill}" stroke="${barLine}"/><text x="${sw / 2}" y="35" font-size="15" text-anchor="middle" fill="${fg}" font-family="Inter,system-ui">${hostText}</text>`,
+        `<rect x="14" y="8" width="${sw - 28}" height="44" rx="14" fill="${pill}" stroke="${barLine}"/><text x="${sw / 2}" y="35" font-size="15" text-anchor="middle" fill="${fg}" font-family="Inter,system-ui">${esc(fit(host(url), (sw - 60) * 0.9))}</text>`,
       );
       const icons = 5;
       u.push(
@@ -181,7 +182,7 @@ export function renderFrame(
       );
     } else if (inner > 8) {
       u.push(
-        `<text x="${sw / 2}" y="${inner / 2 + 5}" font-size="12" text-anchor="middle" fill="${muted}" font-family="Inter,system-ui">${hostText}</text>`,
+        `<text x="${sw / 2}" y="${inner / 2 + 5}" font-size="12" text-anchor="middle" fill="${muted}" font-family="Inter,system-ui">${esc(fit(host(url), sw * 1.1))}</text>`,
       );
     }
     u.push(`</g>`);
@@ -274,7 +275,16 @@ export function renderFrame(
       );
     }
   }
-  u.push(`</g>`);
+  u.push(`</g></g>`);
+
+  if (kind === "phone" && d.os === "ios" && d.cutout === "none") {
+    const land = sw > sh;
+    if (land) {
+      u.push(`<circle cx="${ox + sw + ox / 2 - 6}" cy="${h / 2}" r="22" fill="none" stroke="#4A4E57" stroke-width="2"/><rect x="${ox / 2 - 3}" y="${h / 2 - 28}" width="6" height="56" rx="3" fill="#2A2D33"/>`);
+    } else {
+      u.push(`<circle cx="${w / 2}" cy="${oy + sh + (h - oy - sh) / 2}" r="22" fill="none" stroke="#4A4E57" stroke-width="2"/><rect x="${w / 2 - 28}" y="${oy / 2 - 3}" width="56" height="6" rx="3" fill="#2A2D33"/><circle cx="${w / 2 - 50}" cy="${oy / 2}" r="5" fill="#2A2D33"/>`);
+    }
+  }
 
   // Overlays above the page
   o.push(`<g transform="${T(0, 0)}">`);
@@ -312,7 +322,7 @@ export function renderFrame(
   // Rounded screen mask corners (paint the bezel colour outside the rounded rect).
   if (r)
     o.push(
-      `<path fill-rule="evenodd" fill="#1D1F24" d="M-1 -1 H${sw + 1} V${sh + 1} H-1 Z M${r} 0 H${sw - r} A${r} ${r} 0 0 1 ${sw} ${r} V${sh - r} A${r} ${r} 0 0 1 ${sw - r} ${sh} H${r} A${r} ${r} 0 0 1 0 ${sh - r} V${r} A${r} ${r} 0 0 1 ${r} 0 Z"/>`,
+      `<path fill-rule="evenodd" fill="#1D1F24" d="M${r} ${-oy} H${sw - r} A${r + ox} ${r + ox} 0 0 1 ${sw + ox} ${r} V${sh - r} A${r + ox} ${r + ox} 0 0 1 ${sw - r} ${sh + oy} H${r} A${r + ox} ${r + ox} 0 0 1 ${-ox} ${sh - r} V${r} A${r + ox} ${r + ox} 0 0 1 ${r} ${-oy} Z M${r} 0 H${sw - r} A${r} ${r} 0 0 1 ${sw} ${r} V${sh - r} A${r} ${r} 0 0 1 ${sw - r} ${sh} H${r} A${r} ${r} 0 0 1 0 ${sh - r} V${r} A${r} ${r} 0 0 1 ${r} 0 Z"/>`,
     );
   o.push(`</g>`);
 
