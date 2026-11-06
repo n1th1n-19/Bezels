@@ -12,7 +12,8 @@ import { Core } from '../core/core.js';
 import { sampleMemory } from '../core/memory.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const BASELINE = resolve(root, 'bench/baseline.json');
+// CI hardware differs from a laptop: CI compares against its own baseline (BENCH_BASELINE=bench/baseline.ci.json).
+const BASELINE = resolve(root, process.env.BENCH_BASELINE ?? 'bench/baseline.json');
 const URL_ = process.env.BENCH_URL ?? 'file://' + resolve(root, 'test/fixture/index.html');
 const TARGET = { idle: 150, live1: 500, matrix10: 1000 }; // spec section 2b (MB)
 process.env.BEZELS_SHOTS_DIR ??= resolve(tmpdir(), 'bezels-bench-shots');

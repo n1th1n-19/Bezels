@@ -83,7 +83,7 @@ export async function startServer(core: Core, port = core.cfg.port): Promise<{ c
   wss.on('connection', (ws) => {
     clients.add(ws);
     const subs = new Map<string, () => void>();
-    ws.send(JSON.stringify({ type: 'hello', data: { catalog: core.catalog(), sessions: core.list(), focused: core.focused, compare: core.compare, sync: core.sync, agentPaused: core.agentPaused, stats: core.stats(), keymap: core.keymap(), shots: core.shots.list(), activity: core.activity.slice(-50), mcpActive: Date.now() - core.lastMcp < 60_000 } }));
+    ws.send(JSON.stringify({ type: 'hello', data: { catalog: core.catalog(), sessions: core.list(), focused: core.focused, compare: core.compare, sync: core.sync, agentPaused: core.agentPaused, stats: core.stats(), keymap: core.keymap(), shots: core.shots.list(), activity: core.activity.slice(-50), audits: Object.fromEntries([...core.sessions.values()].filter((s) => s.issues).map((s) => [s.id, s.issues])), mcpActive: Date.now() - core.lastMcp < 60_000 } }));
     ws.on('message', async (raw, isBinary) => {
       if (isBinary) return;
       let m: any;

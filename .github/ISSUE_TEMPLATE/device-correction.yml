@@ -1,0 +1,21 @@
+name: Device correction / new device
+description: A device size, DPR, safe area or browser-bar height is wrong or missing
+labels: [devices]
+body:
+  - type: input
+    id: device
+    attributes: { label: Device and browser, placeholder: "Galaxy S25, Chrome 141 / Samsung Internet 28" }
+    validations: { required: true }
+  - type: textarea
+    id: measured
+    attributes:
+      label: Measured on the real device
+      description: Paste the output of this snippet run on the device (bars expanded, then after scrolling).
+      value: |
+        ```js
+        JSON.stringify({ screen: [screen.width, screen.height], inner: [innerWidth, innerHeight], dpr: devicePixelRatio, ua: navigator.userAgent })
+        ```
+    validations: { required: true }
+  - type: input
+    id: source
+    attributes: { label: Source (if not measured), placeholder: "manufacturer spec URL" }

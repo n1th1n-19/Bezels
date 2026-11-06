@@ -1,0 +1,14 @@
+name: Bug
+description: Something doesn't work
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: "Steps, expected vs actual. Which device and front door (UI / MCP / CLI)?" }
+    validations: { required: true }
+  - type: input
+    id: env
+    attributes: { label: Environment, placeholder: "OS, Node version, Bezels version" }
+  - type: textarea
+    id: logs
+    attributes: { label: Logs / screenshots, render: shell }

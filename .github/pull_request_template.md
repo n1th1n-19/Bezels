@@ -1,0 +1,4 @@
+- [ ] `npm test` passes
+- [ ] `npm run bench` passes (memory)
+- [ ] New actions have a key in `keymap.ts` and a method in `rpc.ts`
+- [ ] Device data changes include a `source`

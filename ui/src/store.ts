@@ -115,7 +115,7 @@ onEvent((event, data) => {
   switch (event) {
     case 'hello':
       { const f = data.sessions.find((x: any) => x.id === data.focused) ?? data.sessions[0]; if (f && !saved.url) state = { ...state, url: f.url }; if (data.sessions.length && !saved.setName) state = { ...state, setName: 'custom' }; }
-      set({ ready: true, catalog: data.catalog, sessions: data.sessions, focused: data.focused, compare: data.compare, sync: data.sync, agentPaused: data.agentPaused, stats: data.stats, keymap: data.keymap, shots: data.shots, activity: data.activity, mcpActive: data.mcpActive });
+      set({ ready: true, catalog: data.catalog, sessions: data.sessions, focused: data.focused, compare: data.compare, sync: data.sync, agentPaused: data.agentPaused, stats: data.stats, keymap: data.keymap, shots: data.shots, activity: data.activity, mcpActive: data.mcpActive, audits: data.audits ?? {} });
       break;
     case 'sessions':
       set({ sessions: data.sessions, focused: data.focused, compare: data.compare, sync: data.sync, agentPaused: data.agentPaused });

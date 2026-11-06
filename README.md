@@ -1,6 +1,10 @@
 # Bezels
 
+[![CI](https://github.com/n1th1n-19/bezels/actions/workflows/ci.yml/badge.svg)](https://github.com/n1th1n-19/bezels/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Shows a web page the way it looks on a real phone, foldable, tablet, laptop or desktop **inside that device's browser**. It runs real browser engines with device emulation (Chromium for Android and desktop, WebKit for iPhone and iPad) and draws the device frame around them. Claude Code can drive it as an agent browser over MCP.
+
+![Bezels workspace: one device at a time, issues grouped across the whole set](docs/ui-audit.png)
 
 One engine with three ways in:
 
@@ -17,12 +21,16 @@ The UI and Claude Code see the same sessions. Every action goes through one meth
 
 ## Setup
 
+Requires Node 20+. From source:
+
 ```bash
-npm install
-npx playwright install chromium webkit
-sudo apt-get install libevent-2.1-7t64 libavif16   # Linux only: system libraries WebKit needs (iPhone/iPad)
+git clone https://github.com/n1th1n-19/bezels && cd bezels
+npm ci
+npx playwright install --with-deps chromium webkit   # --with-deps adds WebKit's system libraries on Linux (sudo)
 npm run build
 ```
+
+Once it's published to npm: `npx bezels serve`.
 
 Optional: `sudo apt install wl-clipboard` (Wayland) or `xclip` (X11) for `bezels shot --copy`. The UI copies through the browser and needs neither.
 
@@ -84,6 +92,8 @@ Device sets: `phones iphones android folds tablets laptops desktop breakpoints t
 
 ## Telegram Mini App mode
 
+![Telegram Mini App mode: Telegram header and MainButton drawn by Bezels, every WebApp call logged](docs/ui-telegram.png)
+
 Turn it on with **Shift+T**, or "Open in → Telegram". A mock `Telegram.WebApp` (Bot API 10.1) is injected before page scripts, and the real `telegram-web-app.js` request is intercepted. The mock covers:
 
 - the full `--tg-*` CSS variables
@@ -95,6 +105,12 @@ Turn it on with **Shift+T**, or "Open in → Telegram". A mock `Telegram.WebApp`
 - per-version method gating
 
 initData is **unsigned** by default, so server-side validation fails on purpose. Put `BEZELS_TG_BOT_TOKEN=<test bot token>` in `.env` to sign it exactly like Telegram does. The audit adds checks for vh misuse, content under Telegram UI, unsupported methods, vertical swipes left on, and a missing `ready()`.
+
+## Screenshots
+
+Per device: screen or full page, framed or plain, transparent or solid, 1× or device DPR. **C** copies to the clipboard, **S** saves, **Shift+S** copies a contact sheet of the whole set. Files land in `./shots/` (`2026-11-06_iphone-16-pro_portrait.png`), and Claude Code's captures appear in the same tray.
+
+![Contact sheet: Generic 360, Galaxy Z Fold 6, Galaxy Tab S9, Laptop 1366](docs/contact-sheet.png)
 
 ## Keyboard
 
@@ -117,9 +133,11 @@ The server binds to `127.0.0.1` only. RPC and WebSocket requests are rejected un
 | [src/core/telegram.ts](src/core/telegram.ts) | mock `Telegram.WebApp` + initData signing |
 | [src/server.ts](src/server.ts), [src/mcp.ts](src/mcp.ts), [src/cli.ts](src/cli.ts) | the three ways in |
 | [ui/src](ui/src) | the web UI |
-| [desktop/](desktop) | optional Tauri wrapper with a global Ctrl+Alt+C (not built here) |
+| [desktop/](desktop) | **experimental**, never-built Tauri wrapper with a global Ctrl+Alt+C |
 
-`npm test` runs the self-checks: viewport numbers against Playwright's hardware measurements, folds, Telegram layout, initData signing, frame XSS sanitising, keymap conflicts, and an end-to-end audit of [test/fixture](test/fixture/index.html).
+`npm test` runs the self-checks. CI runs them on Ubuntu with both engines: viewport numbers against Playwright's hardware measurements, folds, Telegram layout, initData signing, frame XSS sanitising, keymap conflicts, an end-to-end audit of [test/fixture](test/fixture/index.html) on Chromium, and the same on an iPhone with WebKit.
+
+Chrome user agents follow the Chromium that Playwright actually runs, so they don't go stale. Safari, Chrome-on-iOS and Samsung Internet versions are hand-written; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Honest limits
 
@@ -127,3 +145,9 @@ The server binds to `127.0.0.1` only. RPC and WebSocket requests are rejected un
 - This is emulation: no real GPU, fonts or performance of the actual phone. Browser-bar heights are measured values (≈).
 - Telegram mode is a mock. Do a final check in real Telegram, using the test environment and a test bot.
 - For final checks, still test on one real Android (Chrome remote debugging) and one real iPhone.
+
+## Contributing, security, licence
+
+- [CONTRIBUTING.md](CONTRIBUTING.md): setup, and how to add or correct a device. Real-device measurements are the most useful contribution.
+- [SECURITY.md](SECURITY.md): the threat model of the local server, and how to report a vulnerability privately.
+- [MIT](LICENSE). Bezels drives Playwright (Apache-2.0) and loads axe-core (MPL-2.0) unmodified for accessibility audits. Device names belong to their makers; the frames are generic drawings, not their artwork.

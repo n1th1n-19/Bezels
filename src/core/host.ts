@@ -105,6 +105,17 @@ export class Host {
   }
 
   lastError?: string;
+  /** Major version of the Chromium actually running, so Chrome UAs never go stale. */
+  chromeMajor?: string;
+
+  /** Device UA (or the user's override). Chrome UAs get the running Chromium's major version; Samsung Internet keeps its own. */
+  userAgent(): string {
+    const s = this.state, d = this.device;
+    if (s.emulation.userAgent) return s.emulation.userAgent;
+    const ua = d.userAgent[s.browser] || Object.values(d.userAgent)[0]!;
+    if (!this.chromeMajor || /SamsungBrowser/.test(ua)) return ua;
+    return ua.replace(/Chrome\/\d+\.0\.0\.0/, `Chrome/${this.chromeMajor}.0.0.0`).replace(/Edg\/\d+\.0\.0\.0/, `Edg/${this.chromeMajor}.0.0.0`);
+  }
 
   private async _build() {
     try { await this._buildInner(); this.lastError = undefined; }
@@ -121,7 +132,8 @@ export class Host {
     const L = this.layout;
     const e = s.emulation;
     const browser = await this.env.browser(this.engine);
-    const ua = e.userAgent || d.userAgent[s.browser] || Object.values(d.userAgent)[0]!;
+    this.chromeMajor = this.engine === 'chromium' ? browser.version().split('.')[0]! : undefined;
+    const ua = this.userAgent();
     const geo = e.geolocation && e.geolocation !== 'unavailable' ? { latitude: e.geolocation.lat, longitude: e.geolocation.lng, accuracy: e.geolocation.accuracy } : undefined;
     const ctx = await browser.newContext({
       viewport: { width: L.viewport.w, height: L.viewport.h },
@@ -373,7 +385,7 @@ export class Host {
       if (e.timezone) await quiet('Emulation.setTimezoneOverride', { timezoneId: e.timezone });
       if (e.locale) await quiet('Emulation.setLocaleOverride', { locale: e.locale });
       await quiet('Emulation.setTouchEmulationEnabled', { enabled: this.touch, maxTouchPoints: this.touch ? 5 : 0 });
-      await quiet('Emulation.setUserAgentOverride', { userAgent: e.userAgent || d.userAgent[s.browser] || Object.values(d.userAgent)[0], acceptLanguage: e.locale, userAgentMetadata: e.userAgent ? undefined : clientHints(d) });
+      await quiet('Emulation.setUserAgentOverride', { userAgent: this.userAgent(), acceptLanguage: e.locale, userAgentMetadata: e.userAgent ? undefined : clientHints(d, this.chromeMajor) });
       if (e.geolocation === 'unavailable') await quiet('Emulation.setGeolocationOverride', {});
       else if (e.geolocation) await quiet('Emulation.setGeolocationOverride', { latitude: e.geolocation.lat, longitude: e.geolocation.lng, accuracy: e.geolocation.accuracy });
       for (const [name, v] of Object.entries(e.permissions ?? {})) {
@@ -598,8 +610,8 @@ function permNames(k: string): string[] {
   return ({ location: ['geolocation'], camera: ['videoCapture'], microphone: ['audioCapture'], notifications: ['notifications'], clipboard: ['clipboardReadWrite', 'clipboardSanitizedWrite'] } as Record<string, string[]>)[k] ?? [k];
 }
 /** User-Agent Client Hints that match the device (navigator.userAgentData). */
-function clientHints(d: Device) {
-  const v = /Chrome\/(\d+)/.exec(Object.values(d.userAgent).join(' '))?.[1] ?? '141';
+function clientHints(d: Device, major?: string) {
+  const v = major ?? /Chrome\/(\d+)/.exec(Object.values(d.userAgent).join(' '))?.[1] ?? '141';
   const brands = [{ brand: 'Chromium', version: v }, { brand: 'Google Chrome', version: v }, { brand: 'Not?A_Brand', version: '24' }];
   const platform = d.os === 'android' ? 'Android' : d.os === 'windows' ? 'Windows' : d.os === 'macos' ? 'macOS' : 'Linux';
   return { brands, fullVersionList: brands.map((b) => ({ ...b, version: b.version + '.0.0.0' })), platform, platformVersion: d.os === 'android' ? '15.0.0' : d.os === 'windows' ? '19.0.0' : '15.0.0', architecture: d.mobile ? '' : 'x86', model: '', mobile: d.mobile, bitness: d.mobile ? '' : '64', wow64: false };

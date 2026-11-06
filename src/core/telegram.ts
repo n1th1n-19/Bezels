@@ -67,8 +67,8 @@ export function tgMock(cfg: TgMockConfig) {
   };
   const listeners: Record<string, Function[]> = {};
   const emit = (ev: string, data?: any) => (listeners[ev] ?? []).slice().forEach((cb) => { try { cb.call(WebApp, data); } catch (e) { console.error(e); } });
-  const root = document.documentElement;
-  const setVar = (k: string, v: string) => root.style.setProperty(k, v);
+  // Look the root up at call time: init scripts run before <html> exists.
+  const setVar = (k: string, v: string) => document.documentElement?.style.setProperty(k, v);
 
   const state = { ...cfg, viewportStableHeight: cfg.viewportHeight, headerColor: cfg.themeParams.header_bg_color ?? cfg.themeParams.bg_color, backgroundColor: cfg.themeParams.bg_color, bottomBarColor: cfg.themeParams.bottom_bar_bg_color ?? cfg.themeParams.secondary_bg_color };
   const applyVars = () => {

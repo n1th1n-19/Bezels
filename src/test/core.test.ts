@@ -89,7 +89,35 @@ test('end-to-end: audit finds the planted bugs in the fixture (Chromium)', { tim
     const [s] = await core.open(fixture, 'pixel-9', 'cli');
     const types = new Set((await core.audit(s!.id)).map((i) => i.type));
     for (const t of ['overflow', 'tap-target', 'small-text', 'fixed-overlap', 'vh']) assert.ok(types.has(t), `missing ${t}`);
+    const ua = JSON.parse(await core.evaluate(s!.id, 'navigator.userAgent')) as string;
+    const major = core.get(s!.id).host.chromeMajor;
+    assert.ok(major && ua.includes(`Chrome/${major}.0.0.0`) && ua.includes('Android 10; K'), `UA follows running Chromium: ${ua}`);
     const issues = await core.audit(s!.id);
     assert.ok(!issues.some((i) => i.type === 'overflow' && /div\.(buy|chat)/.test(i.message)), 'fixed elements must not be blamed for overflow');
+  } finally { await core.shutdown(); }
+});
+
+test('end-to-end: iPhone on WebKit (required in CI; skipped locally if WebKit system libs are missing)', { timeout: 120_000 }, async (t) => {
+  const { webkit } = await import('playwright');
+  try { await (await webkit.launch()).close(); }
+  catch (e) {
+    if (process.env.CI) throw e;
+    t.skip(`WebKit can't launch here: ${(e as Error).message.split('\n')[0]}`);
+    return;
+  }
+  const { Core } = await import('../core/core.js');
+  const core = new Core();
+  try {
+    const fixture = 'file://' + resolve(dirname(fileURLToPath(import.meta.url)), '../../test/fixture/index.html');
+    const [s] = await core.open(fixture, 'iphone-16-pro', 'cli');
+    assert.equal(s!.engine, 'webkit');
+    const ua = JSON.parse(await core.evaluate(s!.id, 'navigator.userAgent')) as string;
+    assert.match(ua, /iPhone/);
+    const inner = JSON.parse(await core.evaluate(s!.id, '[innerWidth, innerHeight]')) as number[];
+    assert.deepEqual(inner, [s!.layout.viewport.w, s!.layout.viewport.h]);
+    const types = new Set((await core.audit(s!.id)).map((i) => i.type));
+    assert.ok(types.has('overflow') && types.has('tap-target'), [...types].join());
+    const shot = await core.screenshot(s!.id, { framed: true });
+    assert.ok(shot.w > 0 && shot.h > 0);
   } finally { await core.shutdown(); }
 });

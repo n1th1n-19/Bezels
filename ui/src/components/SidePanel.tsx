@@ -89,7 +89,7 @@ function MiniConsole({ s }: { s: SessionInfo }) {
       <div className="flex justify-between items-center"><span className="text-muted text-xs">{entries.length} messages</span><Btn size="sm" variant="raised" onClick={() => set({ devtools: true, panel: 'console' })}>Open in DevTools</Btn></div>
       {entries.slice(-150).map((e) => (
         <div key={e.id} className={cx('font-mono text-[11px] border-b border-line/50 pb-1 break-words', e.level === 'error' ? 'text-err' : e.level === 'warning' ? 'text-warn' : 'text-soft')}>
-          {e.text}{e.url && <div className="text-muted">{(e.mapped ?? `${e.url.split('/').pop()}:${e.line}`)}</div>}
+          {e.text}{e.url && <div className="text-muted">{(e.mapped ?? `${e.url.split('/').pop() || e.url.replace(/^\w+:\/\//, '').split('/')[0]}:${e.line}`)}</div>}
         </div>
       ))}
     </>

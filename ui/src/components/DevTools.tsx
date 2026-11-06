@@ -158,7 +158,7 @@ function Console({ s }: { s: SessionInfo }) {
             {e.url && (
               <button type="button" className="text-muted shrink-0 underline decoration-dotted cursor-pointer hover:text-text text-right" title="Resolve through the source map"
                 onClick={async () => { const r: any = await act('resolve_source', { session: s.id, id: e.id }); if (r?.mapped) set((st) => ({ console: { ...st.console, [s.id]: (st.console[s.id] ?? []).map((x) => (x.id === e.id ? { ...x, mapped: r.mapped } : x)) } })); else toast('No source map for this file'); }}>
-                {e.mapped ?? `${e.url.split('/').pop()?.split('?')[0]}:${e.line}`}
+                {e.mapped ?? `${e.url.split('/').pop()?.split('?')[0] || e.url.replace(/^\w+:\/\//, '').split('/')[0]}:${e.line}`}
               </button>
             )}
           </div>

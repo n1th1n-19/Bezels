@@ -1,11 +1,43 @@
 {
   "name": "bezels",
   "version": "0.1.0",
-  "description": "Real-device responsive tester and agent browser for Claude Code",
+  "description": "Test web pages on emulated real phones, foldables, tablets and desktops (real browser engines, device frames, safe areas, Telegram Mini Apps), and let Claude Code drive it over MCP.",
+  "license": "MIT",
+  "author": "n1th1n-19",
+  "homepage": "https://github.com/n1th1n-19/bezels#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n1th1n-19/bezels.git"
+  },
+  "bugs": {
+    "url": "https://github.com/n1th1n-19/bezels/issues"
+  },
+  "keywords": [
+    "responsive",
+    "device-emulation",
+    "mobile-testing",
+    "playwright",
+    "mcp",
+    "claude-code",
+    "agent-browser",
+    "telegram-mini-app",
+    "safe-area",
+    "foldable",
+    "screenshot",
+    "layout-audit"
+  ],
   "type": "module",
   "bin": {
     "bezels": "dist/cli.js"
   },
+  "files": [
+    "dist",
+    "!dist/test",
+    "!dist/scripts",
+    "!dist/**/*.map",
+    "ui/dist",
+    "devices.json"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json && vite build ui && chmod +x dist/cli.js",
     "build:core": "tsc -p tsconfig.json",
@@ -15,7 +47,8 @@
     "test": "npm run build:core && node --test dist/test/*.test.js",
     "bench": "npm run build:core && node dist/scripts/bench.js",
     "browsers": "playwright install chromium webkit",
-    "devices:json": "node dist/cli.js devices --json > devices.json"
+    "devices:json": "node dist/cli.js devices --json > devices.json",
+    "prepublishOnly": "npm run build && npm test"
   },
   "engines": {
     "node": ">=20"
@@ -40,11 +73,5 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
-  },
-  "files": [
-    "dist",
-    "ui/dist",
-    "README.md",
-    "devices.json"
-  ]
+  }
 }

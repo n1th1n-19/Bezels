@@ -1,4 +1,6 @@
-# Bezels desktop (Tauri, optional)
+# Bezels desktop (Tauri) — experimental
+
+> **Status: experimental, never built or tested.** The web UI (`bezels serve` → http://localhost:4477) is the supported interface. PRs that get this building on Linux/macOS/Windows are welcome.
 
 A thin window around the Bezels UI using the **system webview** (far lighter than Electron), plus
 global shortcuts that work when Bezels isn't focused:
@@ -13,4 +15,3 @@ cargo install tauri-cli --version "^2" --locked
 cd desktop/src-tauri && cargo tauri dev     # or: cargo tauri build
 ```
 
-Not built in CI; the web UI at http://localhost:4477 is the primary interface.
