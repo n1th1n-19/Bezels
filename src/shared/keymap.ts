@@ -11,6 +11,8 @@ export const COMMANDS: CommandDef[] = [
   { id: 'settings', title: 'Settings & keymap', area: 'General', key: 'Mod+,' },
   { id: 'memory', title: 'Memory meter details', area: 'General', key: 'Shift+M' },
   { id: 'limits', title: 'Honest limits of emulation', area: 'General', key: 'g h' },
+  { id: 'zen', title: 'Full screen: hide all panels', area: 'General', key: 'Z' },
+  { id: 'browserFullscreen', title: 'Browser full screen (hides browser UI too)', area: 'General', key: 'g z' },
   { id: 'prevDevice', title: 'Previous device', area: 'Devices', key: 'ArrowLeft' },
   { id: 'nextDevice', title: 'Next device', area: 'Devices', key: 'ArrowRight' },
   ...Array.from({ length: 9 }, (_, i) => ({ id: `device${i + 1}`, title: `Jump to device ${i + 1}`, area: 'Devices', key: String(i + 1) })),

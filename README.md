@@ -153,6 +153,10 @@ Per device: screen or full page, framed or plain, transparent or solid, 1× or d
 
 ![Contact sheet: Generic 360, Galaxy Z Fold 6, Galaxy Tab S9, Laptop 1366](docs/contact-sheet.png)
 
+## Full screen
+
+**Z** (or the expand button in the top bar) hides every panel: top bar, device list, side panel, DevTools, screenshot tray. The device fills the window and may grow past 100%. A small pill (device ‹ ›, rotate, copy screenshot, browser full screen, exit) fades out while the mouse is still. **g z** also hides the browser's own UI. **Esc** or **Z** brings the panels back; the mode is remembered across reloads.
+
 ## Keyboard
 
 Every action has a key or is in the command palette (**Ctrl/Cmd+K**). **?** shows the cheat sheet. Keys are remappable in Settings (**Ctrl/Cmd+,**) and stored in `~/.config/bezels/keymap.json`, with conflicts flagged. Clicking a device (or pressing **Enter**) sends keystrokes to the page; **Esc** takes them back. `g`-chords (`g e`, `g n`, …) time out after 1 s.

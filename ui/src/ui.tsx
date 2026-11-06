@@ -104,6 +104,7 @@ export const I = {
   keyboard: svg(<><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10" /></>, 14),
   sensors: svg(<><circle cx="12" cy="12" r="2" /><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19.1 4.9a10 10 0 0 1 0 14.2M4.9 19.1a10 10 0 0 1 0-14.2" /></>, 14),
   tray: svg(<><path d="M3 15h5l2 3h4l2-3h5" /><path d="M5 4h14l2 11v5H3v-5z" /></>, 14),
+  expand: svg(<><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></>),
   pause: svg(<path d="M8 5v14M16 5v14" />, 12),
   play: svg(<path d="M7 5l12 7-12 7z" />, 12),
 };

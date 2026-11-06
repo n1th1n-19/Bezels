@@ -125,6 +125,12 @@ export const RUN: Record<string, () => unknown> = {
   settings: () => set({ settings: true }),
   memory: () => set((s) => ({ memory: !s.memory })),
   limits: () => set((s) => ({ limits: !s.limits })),
+  zen: () => { set((s) => ({ zen: !s.zen, zoom: 'fit', pan: { x: 0, y: 0 } })); if (!get().zen && document.fullscreenElement) document.exitFullscreen().catch(() => {}); },
+  browserFullscreen: () => {
+    if (document.fullscreenElement) { document.exitFullscreen().catch(() => {}); return; }
+    set({ zen: true, zoom: 'fit', pan: { x: 0, y: 0 } });
+    document.documentElement.requestFullscreen().catch(() => toast('The browser refused full screen'));
+  },
   prevDevice: () => step(-1),
   nextDevice: () => step(1),
   ...Object.fromEntries(Array.from({ length: 9 }, (_, i) => [`device${i + 1}`, () => { const x = get().sessions[i]; if (x) focusSession(x.id); }])),
@@ -217,6 +223,7 @@ export function onKeyDown(e: KeyboardEvent) {
       set({ palette: false, cheatsheet: false, settings: false, memory: false, limits: false, customDialog: false, picker: null, shotPopover: false, activityOpen: false, inspecting: false });
       e.preventDefault();
     } else if (typing(e.target)) (e.target as HTMLElement).blur();
+    else if (s.zen) { RUN.zen!(); e.preventDefault(); }
     return;
   }
   if (key === map.palette) { e.preventDefault(); RUN.palette!(); return; }

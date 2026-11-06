@@ -56,6 +56,8 @@ export interface State {
   searchFocus: number;
   urlFocus: number;
   busy: string | null;
+  /** Full-screen mode: every panel hidden, device fills the window. */
+  zen: boolean;
 }
 
 const saved = (() => { try { return JSON.parse(localStorage.getItem('bezels.ui') ?? '{}'); } catch { return {}; } })();
@@ -66,7 +68,7 @@ let state: State = {
   url: saved.url ?? 'http://localhost:3000/', setName: saved.setName ?? 'mixed', view: 'single', zoom: 'fit', fitZoom: 0.7, pan: { x: 0, y: 0 },
   devtools: false, panel: 'console', sideTab: 'audit', sensors: false, tray: true, palette: false, cheatsheet: false, settings: false, memory: false, limits: false,
   activityOpen: false, customDialog: false, shotPopover: false, picker: null, inspecting: false, keysToDevice: false, chord: null, framed: saved.framed ?? true,
-  shotOpts: saved.shotOpts ?? { fullPage: false, background: 'transparent', scale: 'device' }, inspected: null, searchFocus: 0, urlFocus: 0, busy: null,
+  shotOpts: saved.shotOpts ?? { fullPage: false, background: 'transparent', scale: 'device' }, inspected: null, searchFocus: 0, urlFocus: 0, busy: null, zen: saved.zen ?? false,
 };
 const listeners = new Set<() => void>();
 
@@ -74,7 +76,7 @@ export function get() { return state; }
 export function set(p: Partial<State> | ((s: State) => Partial<State>)) {
   state = { ...state, ...(typeof p === 'function' ? p(state) : p) };
   listeners.forEach((l) => l());
-  try { localStorage.setItem('bezels.ui', JSON.stringify({ url: state.url, setName: state.setName, framed: state.framed, shotOpts: state.shotOpts })); } catch { /* storage off */ }
+  try { localStorage.setItem('bezels.ui', JSON.stringify({ url: state.url, setName: state.setName, framed: state.framed, shotOpts: state.shotOpts, zen: state.zen })); } catch { /* storage off */ }
 }
 const subscribe = (l: () => void) => { listeners.add(l); return () => { listeners.delete(l); }; };
 const shallowEq = (a: unknown, b: unknown) => {

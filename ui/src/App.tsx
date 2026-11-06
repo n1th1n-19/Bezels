@@ -13,6 +13,7 @@ export function App() {
   const ready = useStore((s) => s.ready);
   const focused = useStore((s) => s.focused);
   const sensors = useStore((s) => s.sensors);
+  const zen = useStore((s) => s.zen);
   const [conn, setConn] = useState(true);
 
   useEffect(() => { const un = onConnection(setConn); return () => { un(); }; }, []);
@@ -24,18 +25,18 @@ export function App() {
   if (!ready) return <div className="h-full flex items-center justify-center text-muted">{conn ? 'Connecting to Bezels…' : 'Bezels engine not reachable. Start it with: bezels serve'}</div>;
   return (
     <div className="h-full flex flex-col">
-      <TopBar />
+      {!zen && <TopBar />}
       {!conn && <div className="bg-errbg text-err border-b border-errline px-4 py-1.5 text-xs">Lost connection to the Bezels engine. Reconnecting…</div>}
       <div className="flex flex-1 min-h-0">
-        <Library />
+        {!zen && <Library />}
         <div className="flex-1 min-w-0 flex flex-col min-h-0">
           <Stage />
-          <DevTools />
+          {!zen && <DevTools />}
         </div>
-        {sensors ? <Sensors /> : <SidePanel />}
+        {!zen && (sensors ? <Sensors /> : <SidePanel />)}
       </div>
-      <Tray />
-      <Footer />
+      {!zen && <Tray />}
+      {!zen && <Footer />}
       <Toast /><ChordIndicator /><Palette /><Cheatsheet /><Settings /><MemoryModal /><LimitsModal /><ActivityPanel /><SetPicker /><CustomDialog />
     </div>
   );

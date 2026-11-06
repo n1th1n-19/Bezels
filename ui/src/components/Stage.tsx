@@ -25,6 +25,7 @@ export function Stage() {
   const pan = useStore((s) => s.pan);
   const catalog = useStore((s) => s.catalog);
   const devtools = useStore((s) => s.devtools);
+  const zen = useStore((s) => s.zen);
   const ref = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 800, h: 600 });
   const [spaceDown, setSpaceDown] = useState(false);
@@ -44,8 +45,10 @@ export function Stage() {
     if (!shown.length) return 0.7;
     const tw = shown.reduce((a, s) => a + s.layout.frame.w, 0) + (shown.length - 1) * 80;
     const th = Math.max(...shown.map((s) => s.layout.frame.h));
-    return Math.max(0.1, Math.min(1, (box.w - 64) / tw, (box.h - 230) / th));
-  }, [shown.map((s) => `${s.layout.frame.w}x${s.layout.frame.h}`).join(), box.w, box.h]);
+    return zen
+      ? Math.max(0.1, Math.min(2, (box.w - 32) / tw, (box.h - 32) / th))
+      : Math.max(0.1, Math.min(1, (box.w - 64) / tw, (box.h - 230) / th));
+  }, [shown.map((s) => `${s.layout.frame.w}x${s.layout.frame.h}`).join(), box.w, box.h, zen]);
   useEffect(() => { if (Math.abs(get().fitZoom - fit) > 0.001) set({ fitZoom: fit }); }, [fit]);
   const zoom = zoomSetting === 'fit' ? fit : zoomSetting;
 
@@ -60,10 +63,10 @@ export function Stage() {
 
   return (
     <main className="flex-1 min-w-0 min-h-0 relative dots flex flex-col">
-      {devtools && main && <BreakpointsBar session={main} />}
+      {devtools && !zen && main && <BreakpointsBar session={main} />}
       <div
         ref={ref}
-        className={cx('flex-1 min-h-0 relative overflow-auto flex flex-col items-center justify-center-safe gap-3.5 px-6 pb-4 pt-4', spaceDown && 'cursor-grab')}
+        className={cx('flex-1 min-h-0 relative overflow-auto flex flex-col items-center justify-center-safe', zen ? 'p-4' : 'gap-3.5 px-6 pb-4 pt-4', spaceDown && 'cursor-grab')}
         onPointerDown={(e) => { if (spaceDown) { panStart.current = { x: e.clientX, y: e.clientY, px: pan.x, py: pan.y }; (e.target as HTMLElement).setPointerCapture(e.pointerId); e.preventDefault(); } }}
         onPointerMove={(e) => { const p = panStart.current; if (p) set({ pan: { x: p.px + e.clientX - p.x, y: p.py + e.clientY - p.y } }); }}
         onPointerUp={() => { panStart.current = null; }}
@@ -77,8 +80,9 @@ export function Stage() {
             })}
           </div>
         )}
-        {sessions.length > 0 && <Switcher />}
+        {sessions.length > 0 && !zen && <Switcher />}
       </div>
+      {zen && <ZenPill main={main} />}
     </main>
   );
 }
@@ -99,6 +103,7 @@ export function DeviceView({ session: s, device: d, zoom, primary, blockInput }:
   const inspecting = useStore((st) => st.inspecting);
   const keysToDevice = useStore((st) => st.keysToDevice);
   const shotPopover = useStore((st) => st.shotPopover);
+  const zen = useStore((st) => st.zen);
   const tg: TgRuntime | undefined = s.state.telegram.enabled ? tgStore ?? emptyTgRuntime() : undefined;
   const L = s.layout;
   const fr = useMemo(() => renderFrame(d, s.state, L, s.url, tg, s.title || 'Mini App'), [d, s.state, L, s.url, tg, s.title]);
@@ -165,7 +170,7 @@ export function DeviceView({ session: s, device: d, zoom, primary, blockInput }:
 
   return (
     <figure className="m-0 flex flex-col items-center gap-2.5 relative">
-      <DeviceToolbar s={s} d={d} />
+      {!zen && <DeviceToolbar s={s} d={d} />}
       {primary && shotPopover && <ShotPopover />}
       <div className="relative" style={{ width: fr.w * zoom, height: fr.h * zoom }}>
         {primary && (L.frame.kind === 'phone' || L.frame.kind === 'tablet') && <div className="absolute inset-0 pointer-events-none" style={{ borderRadius: ring * zoom, boxShadow: '0 0 0 2px #7AA7FF' }} />}
@@ -189,7 +194,7 @@ export function DeviceView({ session: s, device: d, zoom, primary, blockInput }:
           {s.status === 'loading' && !s.error && <div className="absolute flex items-center justify-center text-muted text-sm" style={{ left: ox + vp.x, top: oy + vp.y, width: vp.w, height: vp.h, background: '#0E0F12cc' }}>Loading…</div>}
         </div>
       </div>
-      <figcaption className="text-center flex flex-col gap-1">
+      {!zen && <figcaption className="text-center flex flex-col gap-1">
         <span className="font-semibold flex items-center gap-1.5 justify-center flex-wrap">
           {d.name} · {BROWSER_LABEL[s.state.browser]}{s.state.telegram.enabled ? ` · Telegram (${s.state.telegram.platform}, ${s.state.telegram.mode})` : ''}
           {live ? <Badge tone="ok">LIVE</Badge> : <span className="text-[10px] font-semibold px-1.5 rounded-lg bg-line text-muted">{s.status === 'frozen' || s.status === 'evicted' ? 'SNAPSHOT' : s.status.toUpperCase()}</span>}
@@ -201,7 +206,7 @@ export function DeviceView({ session: s, device: d, zoom, primary, blockInput }:
         </span>
         {s.engine === 'webkit' && primary && <span className="text-[11px] text-muted" title="Playwright WebKit is close to iOS Safari but not identical">WebKit ≈ Safari · safe-area insets approximated · live view polled</span>}
         {s.state.telegram.enabled && primary && <span className="text-[11px] text-muted">Dashed blue = drawn by Telegram, not your page</span>}
-      </figcaption>
+      </figcaption>}
     </figure>
   );
 }
@@ -354,6 +359,35 @@ function BreakpointsBar({ session }: { session: SessionInfo }) {
         );
       })}
       {session.state.width ? <Btn size="sm" variant="ghost" className="ml-1 shrink-0" onClick={() => setState({ width: null }, session.id)}>Reset width ({w}px)</Btn> : null}
+    </div>
+  );
+}
+
+/** Full-screen controls: one small pill that fades out while the mouse is still. */
+function ZenPill({ main }: { main?: SessionInfo }) {
+  const sessions = useStore((s) => s.sessions);
+  const [shown, setShown] = useState(true);
+  const [fs, setFs] = useState(!!document.fullscreenElement);
+  useEffect(() => {
+    let t = window.setTimeout(() => setShown(false), 2500);
+    const wake = () => { setShown(true); clearTimeout(t); t = window.setTimeout(() => setShown(false), 2500); };
+    const onFs = () => setFs(!!document.fullscreenElement);
+    addEventListener('pointermove', wake); addEventListener('keydown', wake); document.addEventListener('fullscreenchange', onFs);
+    return () => { clearTimeout(t); removeEventListener('pointermove', wake); removeEventListener('keydown', wake); document.removeEventListener('fullscreenchange', onFs); };
+  }, []);
+  const idx = sessions.findIndex((s) => s.id === main?.id);
+  return (
+    <div role="toolbar" aria-label="Full screen controls"
+      className={cx('absolute top-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 p-1 rounded-full bg-panel/90 border border-line shadow-xl backdrop-blur transition-opacity duration-300', shown ? 'opacity-100' : 'opacity-0 pointer-events-none')}
+      onPointerEnter={() => setShown(true)}>
+      <Btn variant="ghost" size="icon" label="Previous device" cmd="prevDevice" className="!rounded-full" onClick={() => RUN.prevDevice!()}>{I.left}</Btn>
+      <span className="text-xs px-1 whitespace-nowrap">{main ? `${main.deviceName}` : 'No device'}{sessions.length > 1 ? <span className="text-muted"> · {idx + 1}/{sessions.length}</span> : null}</span>
+      <Btn variant="ghost" size="icon" label="Next device" cmd="nextDevice" className="!rounded-full" onClick={() => RUN.nextDevice!()}>{I.right}</Btn>
+      <span className="w-px h-4 bg-line" />
+      <Btn variant="ghost" size="icon" label="Rotate" cmd="rotateCw" className="!rounded-full" onClick={() => RUN.rotateCw!()}>{I.rotate}</Btn>
+      <Btn variant="ghost" size="icon" label="Copy screenshot" cmd="copyShot" className="!rounded-full" onClick={() => RUN.copyShot!()}>{I.copy}</Btn>
+      <Btn variant="ghost" size="sm" label={fs ? 'Leave browser full screen' : 'Browser full screen'} cmd="browserFullscreen" className="!rounded-full" onClick={() => RUN.browserFullscreen!()}>{fs ? 'Exit browser FS' : 'Browser FS'}</Btn>
+      <Btn variant="ghost" size="sm" label="Show panels" cmd="zen" className="!rounded-full" onClick={() => RUN.zen!()}>Exit <kbd>Esc</kbd></Btn>
     </div>
   );
 }

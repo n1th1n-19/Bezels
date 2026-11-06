@@ -51,6 +51,7 @@ export function TopBar() {
       <Seg label="View" value={view} onChange={(v) => v !== view && toggleCompare()} options={[{ v: 'single', l: 'Single', title: 'Single (V)' }, { v: 'compare', l: 'Compare 2', title: 'Compare 2 (V)' }]} />
       <Btn label="Zoom" title="Zoom: = in, - out, \ fit" onClick={() => set((s) => ({ zoom: s.zoom === 'fit' ? 0.5 : s.zoom === 0.5 ? 0.75 : s.zoom === 0.75 ? 1 : 'fit', pan: { x: 0, y: 0 } }))}>{zoom === 'fit' ? `Fit · ${z}%` : `${z}%`}</Btn>
       <Btn label="DevTools" cmd="devtools" active={devtools} onClick={() => RUN.devtools!()}>DevTools</Btn>
+      <Btn label="Full screen: hide all panels" cmd="zen" size="icon" className="!w-[30px]" onClick={() => RUN.zen!()}>{I.expand}</Btn>
       <Btn label="Sensors & emulation" cmd="sensors" active={sensors} onClick={() => RUN.sensors!()}>{I.sensors}</Btn>
       <button type="button" onClick={() => RUN.memory!()} title={tip(`Memory used by Bezels (budget ${stats?.budgetMB ?? 1000} MB)`, 'Shift+M')} className="flex items-center gap-2 h-[30px] px-2.5 rounded-lg border border-line cursor-pointer hover:bg-raised">
         <span className="text-muted text-xs">RAM</span>
