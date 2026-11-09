@@ -4,7 +4,7 @@
 
 Shows a web page the way it looks on a real phone, foldable, tablet, laptop or desktop **inside that device's browser**. It runs real browser engines with device emulation (Chromium for Android and desktop, WebKit for iPhone and iPad) and draws the device frame around them. Claude Code can drive it as an agent browser over MCP.
 
-![Bezels workspace: one device at a time, issues grouped across the whole set](docs/ui-audit.png)
+![Bezels workspace: one device at a time, issues grouped across the whole set](https://raw.githubusercontent.com/n1th1n-19/Bezels/main/docs/ui-audit.png)
 
 One engine with three ways in:
 
@@ -71,7 +71,7 @@ npx playwright install --with-deps chromium webkit   # --with-deps adds WebKit's
 npm run build
 ```
 
-Once it's published to npm: `npx bezels serve`.
+Or from npm (Node 20+): `npx bezels serve`, then once: `npx playwright install --with-deps chromium webkit`.
 
 Optional: `sudo apt install wl-clipboard` (Wayland) or `xclip` (X11) for `bezels shot --copy`. The UI copies through the browser and needs neither.
 
@@ -133,7 +133,7 @@ Device sets: `phones iphones android folds tablets laptops desktop breakpoints t
 
 ## Telegram Mini App mode
 
-![Telegram Mini App mode: Telegram header and MainButton drawn by Bezels, every WebApp call logged](docs/ui-telegram.png)
+![Telegram Mini App mode: Telegram header and MainButton drawn by Bezels, every WebApp call logged](https://raw.githubusercontent.com/n1th1n-19/Bezels/main/docs/ui-telegram.png)
 
 Turn it on with **Shift+T**, or "Open in → Telegram". A mock `Telegram.WebApp` (Bot API 10.1) is injected before page scripts, and the real `telegram-web-app.js` request is intercepted. The mock covers:
 
@@ -151,7 +151,7 @@ initData is **unsigned** by default, so server-side validation fails on purpose.
 
 Per device: screen or full page, framed or plain, transparent or solid, 1× or device DPR. **C** copies to the clipboard, **S** saves, **Shift+S** copies a contact sheet of the whole set. Files land in `./shots/` (`2026-11-06_iphone-16-pro_portrait.png`), and Claude Code's captures appear in the same tray.
 
-![Contact sheet: Generic 360, Galaxy Z Fold 6, Galaxy Tab S9, Laptop 1366](docs/contact-sheet.png)
+![Contact sheet: Generic 360, Galaxy Z Fold 6, Galaxy Tab S9, Laptop 1366](https://raw.githubusercontent.com/n1th1n-19/Bezels/main/docs/contact-sheet.png)
 
 ## Full screen
 

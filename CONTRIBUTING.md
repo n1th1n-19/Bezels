@@ -45,3 +45,14 @@ The mock follows [core.telegram.org/bots/webapps](https://core.telegram.org/bots
 - Engine features that only work in Chromium must show the **Chromium only** badge on WebKit devices, not disappear.
 - Every new action needs an entry in [src/shared/keymap.ts](src/shared/keymap.ts) and a method in [src/core/rpc.ts](src/core/rpc.ts), so it's reachable from the keyboard, the palette and MCP.
 - Small PRs with a test (`src/test/`) when logic changes.
+
+## Releasing
+
+Releases are published by GitHub Actions ([.github/workflows/release.yml](.github/workflows/release.yml)), never from a laptop:
+
+```bash
+npm version patch          # or minor / major: bumps package.json, commits, tags vX.Y.Z
+git push --follow-tags     # the tag triggers: tests (Chromium + WebKit) → npm publish with provenance → GitHub release
+```
+
+npm metadata (description, README, keywords) only changes on npm when a new version is published.

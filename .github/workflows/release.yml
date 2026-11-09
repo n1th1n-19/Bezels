@@ -1,0 +1,64 @@
+name: Release
+
+# Publish to npm and create a GitHub release when a version tag is pushed:
+#   npm version patch        # bumps package.json, commits, tags vX.Y.Z
+#   git push --follow-tags
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write   # create the GitHub release
+  id-token: write   # npm trusted publishing (OIDC) + provenance
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Tag matches package.json
+        run: |
+          V="v$(node -p 'require("./package.json").version')"
+          if [ "$V" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $V. Use 'npm version <patch|minor|major>' to bump both."
+            exit 1
+          fi
+
+      - name: npm with trusted publishing support (>= 11.5.1)
+        run: npm install -g npm@^11.5.1
+      - run: npm ci
+      - name: Install Chromium + WebKit with system deps
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Already on npm?
+        id: npm
+        run: |
+          V="$(node -p 'require("./package.json").version')"
+          if npm view "bezels@$V" version >/dev/null 2>&1; then echo "exists=true" >> "$GITHUB_OUTPUT"; echo "bezels@$V is already published; skipping npm publish."; else echo "exists=false" >> "$GITHUB_OUTPUT"; fi
+
+      # prepublishOnly runs the build and the full test suite (Chromium + WebKit) before anything is uploaded.
+      # Auth: npm trusted publishing (configure once on npmjs.com, no secret needed);
+      # falls back to an NPM_TOKEN repository secret if you'd rather use a token.
+      - name: Publish to npm
+        if: steps.npm.outputs.exists == 'false'
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then echo "Release exists"; exit 0; fi
+          gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes \
+            --notes-file <(printf 'npm: https://www.npmjs.com/package/bezels/v/%s\n\nInstall: `npx bezels serve` or the one-line installer in the README.\n\n' "${GITHUB_REF_NAME#v}")

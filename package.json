@@ -4,13 +4,13 @@
   "description": "Test web pages on emulated real phones, foldables, tablets and desktops (real browser engines, device frames, safe areas, Telegram Mini Apps), and let Claude Code drive it over MCP.",
   "license": "MIT",
   "author": "n1th1n-19",
-  "homepage": "https://github.com/n1th1n-19/bezels#readme",
+  "homepage": "https://github.com/n1th1n-19/Bezels#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/n1th1n-19/bezels.git"
+    "url": "git+https://github.com/n1th1n-19/Bezels.git"
   },
   "bugs": {
-    "url": "https://github.com/n1th1n-19/bezels/issues"
+    "url": "https://github.com/n1th1n-19/Bezels/issues"
   },
   "keywords": [
     "responsive",
@@ -73,5 +73,9 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }
