@@ -1,4 +1,6 @@
 import type { Core, Source } from './core.js';
+import { runFlow, parseStep, type Flow } from './flow.js';
+import { loadFlows, saveFlows } from './config.js';
 import { CITIES, LOCALES } from './core.js';
 import type { Action } from './host.js';
 
@@ -8,7 +10,7 @@ import type { Action } from './host.js';
  */
 type Handler = (core: Core, p: any, source: Source) => Promise<unknown> | unknown;
 
-const READ_ONLY = new Set(['list_devices', 'list_sessions', 'catalog', 'console_logs', 'network_errors', 'network_log', 'request_detail', 'stats', 'telegram_events', 'activity', 'shots', 'keymap_get', 'config_get', 'mcp_hello', 'perf_metrics', 'breakpoints', 'dom_tree', 'audit_rules']);
+const READ_ONLY = new Set(['list_devices', 'list_sessions', 'catalog', 'console_logs', 'network_errors', 'network_log', 'request_detail', 'stats', 'telegram_events', 'activity', 'shots', 'keymap_get', 'config_get', 'mcp_hello', 'perf_metrics', 'breakpoints', 'dom_tree', 'audit_rules', 'list_flows', 'get_helpers']);
 
 export const METHODS: Record<string, Handler> = {
   // catalog & sessions
@@ -44,6 +46,35 @@ export const METHODS: Record<string, Handler> = {
   // audits
   audit_layout: (c, p) => c.audit(p.session, p.rules),
   audit_all: (c, p) => c.auditAll(p.url, p.devices, p.sessions, p.rules),
+  // flows: describe once, replay on every device with checkpoints
+  run_flow: (c, p) => {
+    const saved = p.name && !p.steps ? (loadFlows()[p.name] as Flow | undefined) : undefined;
+    if (p.name && !p.steps && !saved) throw new Error(`No saved flow "${p.name}". list_flows shows the saved ones.`);
+    const flow: Flow = { ...(saved ?? {}), ...(p.steps ? { url: p.url, steps: p.steps, state: p.state, rules: p.rules, timeoutMs: p.timeoutMs } : {}), name: p.name ?? saved?.name, devices: p.devices ?? saved?.devices } as Flow;
+    if (p.url) flow.url = p.url;
+    if (!flow.url || !flow.steps?.length) throw new Error('run_flow needs url + steps, or the name of a saved flow.');
+    return runFlow(c, flow);
+  },
+  save_flow: (c, p) => {
+    if (!p.name || !p.url || !Array.isArray(p.steps) || !p.steps.length) throw new Error('save_flow needs name, url and steps.');
+    p.steps.forEach(parseStep);
+    const all = loadFlows();
+    all[p.name] = { name: p.name, url: p.url, steps: p.steps, devices: p.devices, state: p.state, rules: p.rules, timeoutMs: p.timeoutMs };
+    saveFlows(all);
+    void c;
+    return { saved: p.name, steps: p.steps.length };
+  },
+  list_flows: () => Object.values(loadFlows()),
+  /** Downscaled PNG of a capture (flow sheets in MCP replies). Only files inside the screenshots folder. */
+  preview: async (c, p) => {
+    const { resolve } = await import('node:path');
+    const full = resolve(String(p.path));
+    if (!full.startsWith(resolve(c.shots.dir) + '/')) throw new Error('preview: only files in the screenshots folder');
+    return { base64: (await c.preview(full, Math.min(2000, Number(p.max) || 768))).toString('base64') };
+  },
+  delete_flow: (_c, p) => { const all = loadFlows(); delete all[p.name]; saveFlows(all); return { deleted: p.name }; },
+  get_helpers: (c, p) => c.getHelpers(p.target ?? p.session ?? p.url),
+  set_helpers: (c, p) => c.setHelpers(p.target ?? p.session ?? p.url, p.js ?? null),
   audit_rules: (c, p) => (p.rules !== undefined ? c.setAuditRules(p.target ?? p.session ?? p.url, p.rules) : c.auditRules(p.target ?? p.session ?? p.url)),
 
   // devtools

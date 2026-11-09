@@ -159,6 +159,38 @@ For bulk runs, `screenshot` with `fast: true` skips the frame, device scale and 
 
 **Z** (or the expand button in the top bar) hides every panel: top bar, device list, side panel, DevTools, screenshot tray. The device fills the window and may grow past 100%. A small pill (device ‹ ›, rotate, copy screenshot, browser full screen, exit) fades out while the mouse is still. **g z** also hides the browser's own UI. **Esc** or **Z** brings the panels back; the mode is remembered across reloads.
 
+## Flows: test past the home page
+
+Most apps change screens without changing the URL, so a URL-only check stops at the first screen. Describe the path once and replay it on every device:
+
+```js
+run_flow({
+  name: "suit-roll",
+  url: "http://localhost:3000",
+  devices: "phones,folds,tablets",
+  steps: [
+    "checkpoint lobby",
+    "tap PLAY DEMO", "wait PLACE BET", "checkpoint bet",
+    "tap PLACE BET", { wait: { text: "You won", timeout: 20000 } }, "checkpoint result",
+  ],
+})
+```
+
+Each device runs in a fresh page, one at a time. Every **checkpoint** takes a screenshot and runs the layout audit. You get:
+
+- pass or fail per device, with the failing step and a screenshot of it;
+- issues per checkpoint;
+- one framed contact sheet per checkpoint;
+- `report.html`: a devices × checkpoints grid linked to every image, ready for a pull request.
+
+A hot reload in the middle of a step is waited out and the step retried once.
+
+Steps: `tap`, `wait` (text, `{selector}`, `{gone}` or milliseconds), `type` (optionally `into`), `press`, `scroll`, `hover`, `goto`, `eval`, `state` (for example rotate mid-flow), `checkpoint`. Text matches visible text, exact first.
+
+- **Save and re-run:** `save_flow` stores a flow, and `run_flow({ name })` re-runs it after every change. From the UI, the command palette (Ctrl+K) lists saved flows as "Run flow: …". From a terminal or CI, `bezels flow suit-roll` (or a `flow.json` file) exits 1 if any device fails.
+- **Inside `eval`:** `window.bezels` has `tap`, `waitFor`, `text`, `visible`, `inView`, `rect`, `overlap` and `sleep`, plus `checkpoint(name)`, which screenshots and audits mid-script. Checkpoints come back with the eval result.
+- **Your own helpers:** `set_helpers({ target: "http://localhost:3000", js })` saves a script that runs on every page load of that site, in every session and flow, instead of pasting it into each `eval`.
+
 ## Layout audit
 
 `audit_layout` (one device), `audit_all` (many) and **A** / **Shift+A** in the UI check for:

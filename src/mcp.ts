@@ -92,7 +92,24 @@ export async function runMcp() {
   tool('network_errors', 'Failed requests and HTTP ≥ 400.', { session });
   tool('network_log', 'Request table. filter.type: fetch|xhr|js|css|img|font|doc|ws.', { session, type: z.string().optional(), text: z.string().optional(), limit: z.number().optional() });
   tool('request_detail', 'Headers, payload, response body (fetched on demand) and timing for one request id from network_log.', { session, id: z.number() });
-  tool('eval', 'Run JavaScript in the page and return the JSON result. Statements with return/await are wrapped in an async function.', { session, js: z.string() });
+  tool('eval', 'Run JavaScript in the page and return the JSON result. Statements with return/await are wrapped in an async function. Built-in helpers on window.bezels: tap(textOrSelector), waitFor(textOrSelector, ms), find, text, visible, inView, rect, overlap(a, b), sleep(ms), and checkpoint(name) which screenshots + audits the device mid-script (results come back with the eval result). Saved set_helpers code is also available on every page.', { session, js: z.string() });
+  const step = z.union([z.string(), z.record(z.string(), z.any())]);
+  const steps = z.array(step).describe('Steps, as strings or objects: "tap PLAY DEMO" | "wait PLACE BET" | "wait 500" | "checkpoint result" | "type hello" | "press Enter" | "scroll bottom" | "goto /history" | "hover Menu" | "eval <js>" | {tap:{selector:".start"}} | {wait:{text:"You won",timeout:20000}} | {wait:{gone:"Loading"}} | {type:"42",into:"#bet"} | {state:{orientation:"landscape-left"}}. Text matches visible text (exact first); {selector} forces CSS.');
+  tool('run_flow', 'Replay a flow on many devices, one at a time, each in a fresh page: run the steps, and at every checkpoint take a screenshot and run the layout audit. Hot reloads mid-step are retried once. Returns per-device pass/fail, the failing step, issues per checkpoint, one framed contact sheet per checkpoint, and report.html (devices x checkpoints grid, links to images). Pass url+steps, or the name of a saved flow (url/devices/steps override it).', {
+    name: z.string().optional(), url: z.string().optional(), devices: devices.optional(), steps: steps.optional(),
+    state: z.record(z.string(), z.any()).optional().describe('Device state for every device, e.g. {orientation:"landscape-left"} or {telegram:{enabled:true}}'),
+    rules: rules.optional(), timeoutMs: z.number().optional().describe('Per-step timeout, default 15000'),
+  }, async (a) => {
+    const r: any = await call('run_flow', a);
+    const content: any[] = [{ type: 'text', text: JSON.stringify(r, null, 1) }];
+    for (const s of (r.sheets ?? []).slice(0, 2)) {
+      try { const p = await call('preview', { path: s.path, max: 1400 }); content.push({ type: 'image', data: p.base64, mimeType: 'image/png' }); } catch { /* preview optional */ }
+    }
+    return { content };
+  });
+  tool('save_flow', 'Save a flow by name so it can be re-run with run_flow({name}) after every change.', { name: z.string(), url: z.string(), steps, devices: devices.optional(), state: z.record(z.string(), z.any()).optional(), rules: rules.optional(), timeoutMs: z.number().optional() });
+  tool('list_flows', 'Saved flows.', {});
+  tool('set_helpers', 'Save a helper script for a site (by session id or URL). It runs on every page load of that origin, in every session and flow, so shared functions don\'t have to be pasted into each eval. Pass js: null to remove.', { target: z.string(), js: z.string().nullable() });
   tool('inspect', 'Element at selector (or x,y): box model, computed styles, matching CSS rules with the media/container queries that apply, accessible name. Highlights it on the device.', { session, selector: z.string().optional(), x: z.number().optional(), y: z.number().optional() });
   tool('set_location', 'Emulate geolocation: {lat,lng,accuracy}, a city (Bengaluru, Mumbai, Delhi, London, New York, Tokyo, Sydney…), or unavailable:true. autoTimezone sets timezone+locale from the city.', { session, lat: z.number().optional(), lng: z.number().optional(), accuracy: z.number().optional(), city: z.string().optional(), unavailable: z.boolean().optional(), autoTimezone: z.boolean().optional() });
   tool('set_emulation', 'timezone (IANA), locale (en-IN, hi-IN…), orientation, sensors {alpha,beta,gamma}, permissions {location|camera|microphone|notifications|clipboard: allow|ask|block}, vision (protanopia|deuteranopia|tritanopia|achromatopsia|blurredVision|none), cpu, network, forcedColors, print, touch, idle (active|idle|locked), battery (0–1), userAgent, cacheDisabled, blocked (URL globs).', {

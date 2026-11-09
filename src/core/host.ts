@@ -22,6 +22,10 @@ export interface HostEnv {
   fps: number;
   onScroll(host: Host, pct: number): void;
   onNavigate(host: Host, url: string): void;
+  /** bezels.checkpoint(name) from inside the page. */
+  onCheckpoint(host: Host, name: string): Promise<unknown>;
+  /** Saved helper script for a site origin (runs on every page load). */
+  helpers(url: string): string | undefined;
 }
 
 export interface FrameSub { maxW: number; maxH: number; send(meta: { w: number; h: number }, jpeg: Buffer): void }
@@ -105,6 +109,19 @@ export class Host {
   }
 
   lastError?: string;
+  /** Saved per-site helper script: added as an init script (every load) for pages on that origin. */
+  async injectHelpers(runNow = false) {
+    const js = this.env.helpers(this.url);
+    if (!js || !this.ctx) return;
+    const origin = safeOrigin(this.url);
+    // file: pages: Node calls their origin "null", Chromium "file://"; normalise to Node's.
+    const wrapped = `(() => { if ((location.protocol === 'file:' ? 'null' : location.origin) !== ${JSON.stringify(origin)}) return; try { ${js}\n } catch (e) { console.error('[bezels helpers]', e); } })();`;
+    await this.ctx.addInitScript({ content: wrapped });
+    if (runNow && this.page) await this.page.evaluate(wrapped).catch((e) => this.pushConsole({ level: 'error', text: `[bezels helpers] ${(e as Error).message}` }));
+  }
+
+  /** Set by the flow runner to collect checkpoints itself; otherwise Core handles them. */
+  onCheckpoint?: (name: string) => Promise<unknown>;
   /** Calls currently using this page. A busy page is never frozen or closed by the budget/live-limit jobs. */
   busy = 0;
   /** Major version of the Chromium actually running, so Chrome UAs never go stale. */
@@ -167,6 +184,7 @@ export class Host {
       this.safeAreaNative = await this.cdp.send('Emulation.setSafeAreaInsetsOverride' as never, { insets: this.insetsForCdp() } as never).then(() => true, () => false);
     } else this.safeAreaNative = false;
     await ctx.addInitScript({ content: `(${runtimeInit.toString()})(${JSON.stringify({ safeArea: this.safeAreaNative ? null : L.pageSafeArea, battery: e.battery ?? null })})` });
+    await this.injectHelpers();
 
     if (s.telegram.enabled) {
       const init = buildInitData(s.telegram, this.env.botToken);
@@ -306,6 +324,7 @@ export class Host {
       case 'tgPopup': this.tg.popup = { kind: m.kind, title: m.params?.title, message: m.params?.message ?? '', buttons: m.params?.buttons ?? [{ id: 'ok', type: 'ok' }] }; this.tgPopupId = m.id; this.env.emit('tgRuntime', this); return;
       case 'tgPopupClose': this.tg.popup = null; this.env.emit('tgRuntime', this); return;
       case 'tgCall': return this.tgCall(m.method, m.args);
+      case 'checkpoint': return this.onCheckpoint ? this.onCheckpoint(String(m.name)) : this.env.onCheckpoint(this, String(m.name));
     }
   }
 

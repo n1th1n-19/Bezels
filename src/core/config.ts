@@ -70,3 +70,10 @@ export function envValue(name: string): string | undefined {
 /** Audit rules per site origin (e.g. "http://localhost:3000"), set with the audit_rules tool or Settings. */
 export const loadAuditRules = () => readJson<Record<string, Record<string, unknown>>>(join(CONFIG_DIR, 'audit-rules.json'), {});
 export const saveAuditRules = (r: Record<string, Record<string, unknown>>) => writeJson(join(CONFIG_DIR, 'audit-rules.json'), r);
+
+/** Helper scripts per site origin, injected on every page load (set_helpers). */
+export const loadHelpers = () => readJson<Record<string, string>>(join(CONFIG_DIR, 'helpers.json'), {});
+export const saveHelpers = (h: Record<string, string>) => writeJson(join(CONFIG_DIR, 'helpers.json'), h);
+/** Saved flows by name (save_flow / run_flow). */
+export const loadFlows = () => readJson<Record<string, unknown>>(join(CONFIG_DIR, 'flows.json'), {});
+export const saveFlows = (f: Record<string, unknown>) => writeJson(join(CONFIG_DIR, 'flows.json'), f);

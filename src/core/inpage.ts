@@ -13,6 +13,39 @@ export function runtimeInit(opts: RuntimeOpts) {
   w.__bezelsInit = true;
   const send = (m: any) => { try { w.__bezels?.(m); } catch { /* binding gone */ } };
 
+  // Helpers for eval scripts: no more pasting the same click/wait/geometry code into every call.
+  const visible = (el: Element) => { const r = el.getBoundingClientRect(); const s = getComputedStyle(el); return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none' && +s.opacity > 0.05; };
+  const norm = (t: string | null | undefined) => (t ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
+  /** Find by CSS selector, or by visible text (exact match first, then contains; prefers clickable elements). */
+  const find = (q: string | Element): Element | null => {
+    if (q instanceof Element) return q;
+    try { const el = document.querySelector(q); if (el && visible(el)) return el; } catch { /* not a selector */ }
+    const want = norm(q);
+    const cands = Array.from(document.querySelectorAll('button,a,[role=button],[role=tab],[role=link],input[type=submit],input[type=button],label,summary,h1,h2,h3,h4,p,span,div,li,td'))
+      .filter((el) => visible(el) && norm((el as HTMLElement).innerText || (el as HTMLInputElement).value).includes(want));
+    const score = (el: Element) => (norm((el as HTMLElement).innerText || (el as HTMLInputElement).value) === want ? 0 : 2) + (el.matches('button,a,[role=button],[role=tab],input') ? 0 : 1) + el.querySelectorAll('*').length / 1000;
+    return cands.sort((a, b) => score(a) - score(b))[0] ?? null;
+  };
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const waitFor = async (q: string, timeout = 10000) => {
+    const t0 = Date.now();
+    for (;;) { const el = find(q); if (el) return el; if (Date.now() - t0 > timeout) throw new Error(`bezels.waitFor: "${q}" not visible after ${timeout}ms`); await sleep(100); }
+  };
+  const rect = (q: string | Element) => { const el = find(q); if (!el) return null; const r = el.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height), right: Math.round(r.right), bottom: Math.round(r.bottom) }; };
+  w.bezels = {
+    find, sleep, waitFor, rect,
+    visible: (q: string) => { const el = find(q); return !!el && visible(el); },
+    text: (q: string) => (find(q) as HTMLElement | null)?.innerText ?? null,
+    /** Click the element (by text or selector); waits for it first. */
+    tap: async (q: string, timeout = 10000) => { const el = (await waitFor(q, timeout)) as HTMLElement; el.scrollIntoView({ block: 'center' }); el.click(); await sleep(50); return true; },
+    /** Do two elements overlap? Returns the overlap in px² (0 = no). */
+    overlap: (a: string, b: string) => { const r1 = rect(a), r2 = rect(b); if (!r1 || !r2) return 0; return Math.max(0, Math.min(r1.right, r2.right) - Math.max(r1.x, r2.x)) * Math.max(0, Math.min(r1.bottom, r2.bottom) - Math.max(r1.y, r2.y)); },
+    /** Is the element fully inside the viewport? */
+    inView: (q: string) => { const r = rect(q); return !!r && r.x >= 0 && r.y >= 0 && r.right <= innerWidth && r.bottom <= innerHeight; },
+    /** Screenshot + layout audit of the device right now, labelled `name`. Returns { name, path, errors, warnings }. */
+    checkpoint: (name: string) => w.__bezels?.({ type: 'checkpoint', name }),
+  };
+
   // Count listeners that make vertical swipes conflict with Telegram's sheet gesture.
   const listen = { touchmove: 0, pointermove: 0, wheel: 0 } as Record<string, number>;
   w.__bezelsListeners = listen;

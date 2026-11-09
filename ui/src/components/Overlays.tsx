@@ -48,11 +48,22 @@ export function Palette() {
   const [i, setI] = useState(0);
   const cmds = useMemo(() => commandList(), [open]);
   const sets = useStore((s) => s.catalog?.sets ?? {});
-  const all = useMemo(() => [...cmds, ...Object.entries(sets).map(([k, v]) => ({ id: `set:${k}`, title: `Device set: ${v.label}`, area: 'Sets', key: '' }))], [cmds, sets]);
+  const [flows, setFlows] = useState<{ name: string; url: string; steps: unknown[] }[]>([]);
+  useEffect(() => { if (open) act<any[]>('list_flows').then((f) => setFlows(f ?? [])); }, [open]);
+  const all = useMemo(() => [
+    ...cmds,
+    ...flows.map((f) => ({ id: `flow:${f.name}`, title: `Run flow: ${f.name} (${f.steps.length} steps)`, area: 'Flows', key: '' })),
+    ...Object.entries(sets).map(([k, v]) => ({ id: `set:${k}`, title: `Device set: ${v.label}`, area: 'Sets', key: '' })),
+  ], [cmds, sets, flows]);
   const list = all.filter((c) => (c.title + ' ' + c.area).toLowerCase().includes(q.toLowerCase())).slice(0, 60);
   useEffect(() => { setQ(''); setI(0); }, [open]);
   if (!open) return null;
-  const run = (id: string) => { set({ palette: false }); if (id.startsWith('set:')) openSet(id.slice(4)); else RUN[id]?.(); };
+  const run = (id: string) => {
+    set({ palette: false });
+    if (id.startsWith('set:')) openSet(id.slice(4));
+    else if (id.startsWith('flow:')) runSavedFlow(id.slice(5));
+    else RUN[id]?.();
+  };
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex justify-center pt-[12vh] p-4" onMouseDown={(e) => e.target === e.currentTarget && set({ palette: false })}>
       <div role="dialog" aria-label="Command palette" className="fade-in w-full max-w-[600px] bg-panel border border-line rounded-xl shadow-2xl flex flex-col max-h-[70vh] overflow-hidden">
@@ -284,3 +295,14 @@ export function SetPicker() {
 }
 
 export { copyImage };
+
+/** Run a saved flow on its devices (one at a time, in the background) and open the report when done. */
+async function runSavedFlow(name: string) {
+  toast(`Running flow "${name}" on each device, one at a time…`);
+  const r = await act<any>('run_flow', { name }, `Running flow "${name}"…`);
+  if (!r) return;
+  const cfg = await act<any>('config_get');
+  const rel = cfg?.shotsDir && r.report.startsWith(cfg.shotsDir) ? r.report.slice(cfg.shotsDir.length).replace(/^\//, '') : null;
+  toast(`Flow "${name}": ${r.passed} passed, ${r.failed} failed`, r.failed > 0);
+  if (rel) window.open(`/shots/${rel.split('/').map(encodeURIComponent).join('/')}`, '_blank');
+}

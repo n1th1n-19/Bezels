@@ -18,6 +18,8 @@ const HELP = `bezels — real-device responsive tester
   bezels shot <url> --device iphone-16-pro --framed --copy
   bezels audit <url> --devices all [--json]
   bezels devices [--json]          list device ids
+  bezels flow <flow.json | saved-name> [--devices phones] [--url http://…] [--json]
+                                   replay a flow on every device; exits 1 if any device fails
   bezels stats                     memory of a running daemon
   bezels stop                      stop a running daemon
   bezels update [--check]          pull the latest version, reinstall what changed, rebuild
@@ -39,7 +41,7 @@ async function main() {
   const { values: o, positionals } = parseArgs({
     args: rest, allowPositionals: true,
     options: {
-      devices: { type: 'string' }, device: { type: 'string' }, framed: { type: 'boolean' }, plain: { type: 'boolean' }, full: { type: 'boolean' },
+      devices: { type: 'string' }, device: { type: 'string' }, url: { type: 'string' }, framed: { type: 'boolean' }, plain: { type: 'boolean' }, full: { type: 'boolean' },
       out: { type: 'string' }, copy: { type: 'boolean' }, json: { type: 'boolean' }, port: { type: 'string' }, watch: { type: 'string' }, open: { type: 'string' },
       transparent: { type: 'boolean' }, dark: { type: 'boolean' }, landscape: { type: 'boolean' },
       yes: { type: 'boolean', short: 'y' }, 'dry-run': { type: 'boolean' }, all: { type: 'boolean' }, 'keep-config': { type: 'boolean' }, 'older-than': { type: 'string' }, force: { type: 'boolean' }, check: { type: 'boolean' },
@@ -100,6 +102,28 @@ async function main() {
         if (outDir) paths = paths.map((p) => { const t = join(outDir, p.split('/').pop()!); if (t !== p) copyFileSync(p, t); return t; });
         for (const p of paths) console.log(p);
         if (o.copy) { await copyImageToClipboard(paths[0]!); console.error('copied to clipboard'); }
+      } finally { await core?.shutdown(); }
+      return;
+    }
+    case 'flow': {
+      const arg = positionals[0];
+      if (!arg) throw new Error('usage: bezels flow <flow.json | saved-name> [--devices phones] [--url http://localhost:3000]');
+      const { existsSync, readFileSync } = await import('node:fs');
+      const params: Record<string, unknown> = existsSync(arg) ? JSON.parse(readFileSync(arg, 'utf8')) : { name: arg };
+      if (o.devices ?? o.device) params.devices = o.devices ?? o.device;
+      if (o.url) params.url = o.url;
+      const { call, core } = await client('cli');
+      try {
+        const r: any = await call('run_flow', params);
+        if (o.json) console.log(JSON.stringify(r, null, 2));
+        else {
+          for (const d of r.results) {
+            console.log(`${d.ok ? 'PASS' : 'FAIL'}  ${d.name.padEnd(22)} ${(d.ms / 1000).toFixed(1)}s${d.error ? `  step ${d.error.step} (${d.error.text}): ${d.error.message}` : ''}`);
+            for (const c of d.checkpoints) if (c.errors || c.warnings) console.log(`        ${c.name}: ${c.errors} error(s), ${c.warnings} warning(s)${c.issues[0] ? ' · ' + c.issues[0] : ''}`);
+          }
+          console.log(`\n${r.passed} passed, ${r.failed} failed · report: ${r.report}`);
+        }
+        process.exitCode = r.failed ? 1 : 0;
       } finally { await core?.shutdown(); }
       return;
     }

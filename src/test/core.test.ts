@@ -160,3 +160,44 @@ test('busy pages are never closed by the memory budget mid-call', { timeout: 120
     for (const r of results) assert.match(String(r), /fixture/i);
   } finally { await core.shutdown(); }
 });
+
+test('flows: replay steps on several devices, checkpoints audit each screen, report + sheets written', { timeout: 180_000 }, async () => {
+  const { Core } = await import('../core/core.js');
+  const { runFlow } = await import('../core/flow.js');
+  const { existsSync, readFileSync } = await import('node:fs');
+  const core = new Core();
+  try {
+    const url = 'file://' + resolve(dirname(fileURLToPath(import.meta.url)), '../../test/fixture/flow.html');
+    const r = await runFlow(core, { name: 'test', url, devices: ['android-360', 'pixel-9'], steps: ['checkpoint lobby', 'tap PLAY DEMO', 'wait PLACE BET', 'tap PLACE BET', 'wait You won', 'checkpoint result'] });
+    assert.deepEqual(r.checkpoints, ['lobby', 'result']);
+    const narrow = r.results.find((x) => x.device === 'android-360')!, wide = r.results.find((x) => x.device === 'pixel-9')!;
+    assert.equal(wide.ok, true, JSON.stringify(wide));
+    assert.equal(narrow.ok, false, 'the 360px phone has overlapping stats on the result screen');
+    assert.ok(narrow.checkpoints.find((c) => c.name === 'result')!.issues.some((i) => /overlaps/.test(i)));
+    assert.equal(r.sheets.length, 2);
+    for (const s of r.sheets) assert.ok(existsSync(s.path));
+    assert.match(readFileSync(r.report, 'utf8'), /1 passed, 1 failed/);
+    // A step that can't be satisfied fails that device with the step number and a screenshot.
+    const bad = await runFlow(core, { url, devices: ['pixel-9'], steps: ['tap PLAY DEMO', 'wait NOPE'], timeoutMs: 1500 });
+    assert.equal(bad.results[0]!.error!.step, 2);
+    assert.ok(bad.results[0]!.error!.file && existsSync(bad.results[0]!.error!.file));
+  } finally { await core.shutdown(); }
+});
+
+test('eval helpers: bezels.tap / waitFor / checkpoint, and saved per-site helper scripts', { timeout: 90_000 }, async () => {
+  const { Core } = await import('../core/core.js');
+  const core = new Core();
+  try {
+    const url = 'file://' + resolve(dirname(fileURLToPath(import.meta.url)), '../../test/fixture/flow.html');
+    const [s] = await core.open(url, 'pixel-9', 'cli');
+    const out = JSON.parse(await core.evaluate(s!.id, `await bezels.tap('PLAY DEMO'); await bezels.waitFor('PLACE BET'); await bezels.checkpoint('bet'); return bezels.text('#bet h2')`));
+    assert.equal(out.result, 'Choose your bet');
+    assert.equal(out.checkpoints[0].name, 'bet');
+    // file:// pages share the "null" origin, so a helper saved for this URL applies to it.
+    await core.setHelpers(url, 'window.answer = () => 42;');
+    assert.equal(await core.evaluate(s!.id, 'window.answer()'), '42');
+    await core.reload(s!.id);
+    assert.equal(await core.evaluate(s!.id, 'window.answer()'), '42', 'helpers survive reloads');
+    await core.setHelpers(url, null);
+  } finally { await core.shutdown(); }
+});

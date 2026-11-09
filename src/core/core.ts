@@ -14,7 +14,7 @@ import { Host, contextKey, type Action, type FrameSub } from './host.js';
 import { Compositor, ShotStore, extendLayout, framedHtml, sheetHtml } from './capture.js';
 import { DEFAULT_RULES, auditPage, breakpoints, domTree, inspectEl, overlay, script, storageOp, tabOrder, type AuditOpts, type AuditRules, type OverlayItem } from './inpage.js';
 import { sampleMemory } from './memory.js';
-import { type Config, envValue, loadAuditRules, loadConfig, loadCustomDevices, loadKeymap, saveAuditRules, saveConfig, saveCustomDevices, saveKeymap } from './config.js';
+import { type Config, envValue, loadAuditRules, loadConfig, loadCustomDevices, loadHelpers, loadKeymap, saveAuditRules, saveConfig, saveCustomDevices, saveHelpers, saveKeymap } from './config.js';
 import { copyImageToClipboard } from './clipboard.js';
 import { SourceMapConsumer } from 'source-map-js';
 
@@ -73,7 +73,7 @@ export class Core extends EventEmitter {
   }
 
   // ---------------- hosts / sessions ----------------
-  private env = {
+  env = {
     browser: (e: 'chromium' | 'webkit') => this.pool.get(e),
     retain: (e: 'chromium' | 'webkit') => this.pool.retain(e),
     release: (e: 'chromium' | 'webkit') => this.pool.release(e),
@@ -82,6 +82,8 @@ export class Core extends EventEmitter {
     fps: this.cfg.screencastFps,
     onScroll: (h: Host, pct: number) => this.onScroll(h, pct),
     onNavigate: (h: Host, url: string) => this.onNavigate(h, url),
+    onCheckpoint: (h: Host, name: string) => this.onCheckpoint(h, name),
+    helpers: (url: string) => loadHelpers()[originOf(url)],
   };
 
   private dedupeKey(d: Device, s: DeviceState, url: string): string {
@@ -319,7 +321,7 @@ export class Core extends EventEmitter {
   }
 
   // ---------------- screenshots ----------------
-  private frameInput(s: Session) { return { device: s.device, state: s.host.state, layout: s.host.layout, url: s.host.url, tg: s.host.tg, title: s.host.title || 'Mini App' }; }
+  frameInput(s: Session) { return { device: s.device, state: s.host.state, layout: s.host.layout, url: s.host.url, tg: s.host.tg, title: s.host.title || 'Mini App' }; }
 
   async screenshot(id: string, o: ScreenshotOptions & { source?: Source; label?: string } = {}): Promise<ShotMeta & { path: string; ms: number }> {
     const t0 = Date.now();
@@ -329,7 +331,7 @@ export class Core extends EventEmitter {
     return { ...(await this.capturePage(page, this.frameInput(s), o2)), ms: Date.now() - t0 };
   }
 
-  private async capturePage(page: Page, f: ReturnType<Core['frameInput']>, o: ScreenshotOptions & { source?: Source; label?: string }): Promise<ShotMeta & { path: string }> {
+  async capturePage(page: Page, f: ReturnType<Core['frameInput']>, o: ScreenshotOptions & { source?: Source; label?: string }, withThumb = !o.fast): Promise<ShotMeta & { path: string }> {
     const scale = o.scale === 'css' ? 1 : f.device.dpr;
     const transparent = o.background !== 'solid';
     const name = this.shots.name([f.device.id, f.state.orientation, ...(f.state.telegram.enabled ? ['telegram'] : []), ...(o.fullPage ? ['full'] : []), ...(o.framed ? [] : ['plain'])]);
@@ -343,10 +345,10 @@ export class Core extends EventEmitter {
       await this.compositor.render({ html: h.html, files: { 'shot.png': raw }, width: h.w, height: h.h, scale, transparent, out });
       unlinkSync(raw);
     }
-    return this.registerShot(out, { label: o.label ?? f.device.name, deviceId: f.device.id, framed: !!o.framed, fullPage: !!o.fullPage, kind: 'device', source: o.source ?? 'ui' }, !o.fast);
+    return this.registerShot(out, { label: o.label ?? f.device.name, deviceId: f.device.id, framed: !!o.framed, fullPage: !!o.fullPage, kind: 'device', source: o.source ?? 'ui' }, withThumb);
   }
 
-  private async registerShot(file: string, m: Omit<ShotMeta, 'id' | 'file' | 'thumb' | 'time' | 'w' | 'h'>, withThumb = true): Promise<ShotMeta & { path: string }> {
+  async registerShot(file: string, m: Omit<ShotMeta, 'id' | 'file' | 'thumb' | 'time' | 'w' | 'h'>, withThumb = true): Promise<ShotMeta & { path: string }> {
     const sz = pngSize(file);
     const base = file.split('/').pop()!;
     const thumb = this.shots.thumbPath(base);
@@ -482,7 +484,7 @@ export class Core extends EventEmitter {
     return this.auditRules(origin);
   }
 
-  private auditOpts(d: Device, s: DeviceState, L: Layout, tgSwipes: boolean, rules: AuditRules): AuditOpts {
+  auditOpts(d: Device, s: DeviceState, L: Layout, tgSwipes: boolean, rules: AuditRules): AuditOpts {
     return {
       rules,
       touch: s.emulation.touch ?? d.touch, mobile: d.mobile, dpr: d.dpr, obstructions: obstructions(d, s, L),
@@ -591,15 +593,50 @@ export class Core extends EventEmitter {
     return { mapped: e.mapped };
   }
 
+  /** Checkpoints taken by bezels.checkpoint() during an eval, per host, returned with the eval result. */
+  private checkpoints = new WeakMap<Host, unknown[]>();
+
+  /** bezels.checkpoint(name) from a session page: screenshot (fast) + audit, recorded on the session. */
+  async onCheckpoint(h: Host, name: string) {
+    const s = this.sessionsOf(h)[0];
+    if (!s) return { name, error: 'no session' };
+    const page = h.page!;
+    const raw = await this.capturePage(page, this.frameInput(s), { scale: 'css', label: `${s.device.name} · ${name}`, source: 'mcp' }, false);
+    const issues = (await page.evaluate(script(auditPage, this.auditOpts(s.device, h.state, h.layout, h.tg.verticalSwipes, this.rulesFor(h.url))))) as AuditIssue[];
+    const cp = { name, path: raw.path, errors: issues.filter((i) => i.severity === 'error').length, warnings: issues.filter((i) => i.severity === 'warn').length, issues: issues.filter((i) => i.severity !== 'info').slice(0, 15).map((i) => `${i.severity}: ${i.title}: ${i.message}`) };
+    const list = this.checkpoints.get(h) ?? [];
+    list.push(cp);
+    this.checkpoints.set(h, list);
+    return { name, path: cp.path, errors: cp.errors, warnings: cp.warnings };
+  }
+
+  getHelpers(target: string) { const origin = this.originFor(target); return { origin, js: loadHelpers()[origin] ?? null }; }
+  async setHelpers(target: string, js: string | null) {
+    const origin = this.originFor(target);
+    const all = loadHelpers();
+    if (js) all[origin] = js; else delete all[origin];
+    saveHelpers(all);
+    // Apply to open pages on that origin now (and on every future load via the init script).
+    let applied = 0;
+    if (js) for (const h of this.hosts) if (h.page && originOf(h.url) === origin) { await h.injectHelpers(true); applied++; }
+    return { origin, saved: !!js, appliedTo: applied, note: 'Runs on every page load of this origin, before page scripts can be relied on: wrap DOM work in functions you call from eval.' };
+  }
+  originFor(target: string) { return this.sessions.has(target) ? originOf(this.get(target).host.url) : originOf(normalizeUrl(target)); }
+
   async evaluate(id: string, js: string) {
-    const page = await this.get(id).host.active();
+    const h = this.get(id).host;
+    const page = await h.active();
+    this.checkpoints.set(h, []);
     let v: unknown;
     try { v = await page.evaluate(js); }
     catch (e) {
       if (!/SyntaxError|Illegal return|await is only valid/.test((e as Error).message)) throw e;
       v = await page.evaluate(`(async () => { ${js} })()`);
     }
-    const s = JSON.stringify(v, null, 1) ?? String(v);
+    const cps = this.checkpoints.get(h) ?? [];
+    this.checkpoints.delete(h);
+    // Checkpoints taken with bezels.checkpoint() during the script come back with its result.
+    const s = JSON.stringify(cps.length ? { result: v, checkpoints: cps } : v, null, 1) ?? String(v);
     return s.length > 20_000 ? s.slice(0, 20_000) + '…(truncated)' : s;
   }
 

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow fixture</title>
+<style>
+  body { margin: 0; font: 16px/1.4 system-ui, sans-serif; }
+  .screen { display: none; padding: 16px; }
+  .screen.on { display: block; }
+  button { min-width: 120px; min-height: 48px; font-size: 16px; }
+  /* Bug only on narrow phones: the two stats sit on top of each other below 380px. */
+  .stats { position: relative; height: 40px; }
+  .stats span { position: absolute; top: 0; font-size: 20px; white-space: nowrap; }
+  .stats .won { left: 0; }
+  .stats .paid { left: 200px; }
+  @media (max-width: 379px) { .stats .paid { left: 40px; } }
+</style>
+</head>
+<body>
+  <!-- Screens change without the URL changing, like a single-page game. -->
+  <section id="lobby" class="screen on"><h1>Suit Roll</h1><button id="play">PLAY DEMO</button></section>
+  <section id="bet" class="screen"><h2>Choose your bet</h2><button id="place">PLACE BET</button></section>
+  <section id="result" class="screen"><h2 id="msg">Rolling…</h2><div class="stats"><span class="won">Won 44.32K</span><span class="paid">Paid 51.52K</span></div></section>
+  <script>
+    const show = (id) => document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === id));
+    document.getElementById('play').onclick = () => setTimeout(() => show('bet'), 300);
+    document.getElementById('place').onclick = () => { show('result'); setTimeout(() => { document.getElementById('msg').textContent = 'You won'; }, 800); };
+  </script>
+</body>
+</html>
