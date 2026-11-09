@@ -1,6 +1,6 @@
 {
   "name": "bezels",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Test web pages on emulated real phones, foldables, tablets and desktops (real browser engines, device frames, safe areas, Telegram Mini Apps), and let Claude Code drive it over MCP.",
   "license": "MIT",
   "author": "n1th1n-19",
