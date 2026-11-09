@@ -21,9 +21,15 @@ export interface Config {
   sets: Record<string, string[]>;
 }
 
+/** Screenshots go to the user cache, not whatever project the command runs in. */
+function defaultShotsDir() {
+  const base = process.platform === 'darwin' ? join(homedir(), 'Library', 'Caches') : process.platform === 'win32' ? (process.env.LOCALAPPDATA ?? join(homedir(), 'AppData', 'Local')) : (process.env.XDG_CACHE_HOME ?? join(homedir(), '.cache'));
+  return join(base, 'bezels', 'shots');
+}
+
 const DEFAULTS: Config = {
   port: 4477, maxMemoryMB: 1000, maxLive: 2, idleCloseMs: 5 * 60_000, engineIdleMs: 3 * 60_000,
-  shotsDir: './shots', screencastFps: 15, favourites: ['iphone-16-pro', 'pixel-9', 'galaxy-z-fold-6', 'ipad-mini', 'laptop-1366'],
+  shotsDir: defaultShotsDir(), screencastFps: 15, favourites: ['iphone-16-pro', 'pixel-9', 'galaxy-z-fold-6', 'ipad-mini', 'laptop-1366'],
   sets: { mixed: ['iphone-16-pro', 'pixel-9', 'galaxy-z-fold-6', 'ipad-mini', 'laptop-1366'] },
 };
 
@@ -60,3 +66,7 @@ export function envValue(name: string): string | undefined {
     return line?.slice(name.length + 1).trim().replace(/^["']|["']$/g, '') || undefined;
   } catch { return undefined; }
 }
+
+/** Audit rules per site origin (e.g. "http://localhost:3000"), set with the audit_rules tool or Settings. */
+export const loadAuditRules = () => readJson<Record<string, Record<string, unknown>>>(join(CONFIG_DIR, 'audit-rules.json'), {});
+export const saveAuditRules = (r: Record<string, Record<string, unknown>>) => writeJson(join(CONFIG_DIR, 'audit-rules.json'), r);

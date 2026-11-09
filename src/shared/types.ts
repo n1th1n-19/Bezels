@@ -326,4 +326,6 @@ export interface ScreenshotOptions {
   framed?: boolean;
   background?: "transparent" | "solid";
   scale?: "css" | "device";
+  /** Bulk mode: plain, CSS scale, no thumbnail render. Much faster than framed device-scale shots. */
+  fast?: boolean;
 }

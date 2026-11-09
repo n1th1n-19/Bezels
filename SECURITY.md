@@ -12,6 +12,10 @@ Bezels runs a local server (default `127.0.0.1:4477`) that can open URLs, run Ja
 
 Out of scope: anything that requires already running code as your user on the same machine.
 
+## Operating-system permissions
+
+Bezels asks the OS for nothing. It runs headless browsers, needs no screen recording, remote-desktop, accessibility, camera or microphone access, and uses the clipboard only when you ask it to copy (`--copy`, or the copy buttons in the UI, which go through the browser). Checked on Linux by watching the desktop portal while both engines start, take screenshots and run scripts: no remote-desktop, screen-cast or screenshot requests. WebKit only reads the system proxy settings. If you see such a prompt while Bezels runs, it's coming from another tool.
+
 ## Reporting
 
 Please report vulnerabilities privately through **GitHub → Security → Report a vulnerability** on this repository, not in a public issue. Include steps to reproduce and the Bezels version (`package.json`). You should get a reply within 7 days.

@@ -8,7 +8,7 @@ import type { Action } from './host.js';
  */
 type Handler = (core: Core, p: any, source: Source) => Promise<unknown> | unknown;
 
-const READ_ONLY = new Set(['list_devices', 'list_sessions', 'catalog', 'console_logs', 'network_errors', 'network_log', 'request_detail', 'stats', 'telegram_events', 'activity', 'shots', 'keymap_get', 'config_get', 'mcp_hello', 'perf_metrics', 'breakpoints', 'dom_tree']);
+const READ_ONLY = new Set(['list_devices', 'list_sessions', 'catalog', 'console_logs', 'network_errors', 'network_log', 'request_detail', 'stats', 'telegram_events', 'activity', 'shots', 'keymap_get', 'config_get', 'mcp_hello', 'perf_metrics', 'breakpoints', 'dom_tree', 'audit_rules']);
 
 export const METHODS: Record<string, Handler> = {
   // catalog & sessions
@@ -24,7 +24,7 @@ export const METHODS: Record<string, Handler> = {
 
   // capture
   screenshot: async (c, p, src) => {
-    const m = await c.screenshot(p.session, { fullPage: p.fullPage, framed: p.framed, background: p.background, scale: p.scale, source: src });
+    const m = await c.screenshot(p.session, { fullPage: p.fullPage, framed: p.framed, background: p.background, scale: p.scale, fast: p.fast, source: src });
     return p.preview ? { ...m, preview: (await c.preview(m.path, p.previewMax ?? 768)).toString('base64') } : m;
   },
   screenshot_matrix: async (c, p, src) => {
@@ -42,8 +42,9 @@ export const METHODS: Record<string, Handler> = {
   interact: (c, p) => c.input(p.session, p.action as Action),
 
   // audits
-  audit_layout: (c, p) => c.audit(p.session),
-  audit_all: (c, p) => c.auditAll(p.url, p.devices, p.sessions),
+  audit_layout: (c, p) => c.audit(p.session, p.rules),
+  audit_all: (c, p) => c.auditAll(p.url, p.devices, p.sessions, p.rules),
+  audit_rules: (c, p) => (p.rules !== undefined ? c.setAuditRules(p.target ?? p.session ?? p.url, p.rules) : c.auditRules(p.target ?? p.session ?? p.url)),
 
   // devtools
   console_logs: (c, p) => c.consoleLogs(p.session, p),
@@ -98,5 +99,11 @@ export async function dispatch(core: Core, method: string, params: any, source: 
     if (core.agentPaused && !READ_ONLY.has(method)) throw new Error('Claude Code control is paused by the user in Bezels (Shift+K to resume). Read-only tools still work.');
     if (method !== 'mcp_hello') core.logActivity(method, params);
   }
-  return fn(core, params ?? {}, source);
+  // Mark every page this call touches as busy, so the memory-budget and live-limit jobs never freeze
+  // or close it mid-call (that was the source of "Target page ... has been closed" during long evals).
+  const hosts = core.hostsFor(params);
+  for (const h of hosts) h.busy++;
+  try { return await fn(core, params ?? {}, source); }
+  catch (e) { throw core.explain(e, method, typeof params?.session === 'string' && params.session !== 'all' ? params.session : undefined); }
+  finally { for (const h of hosts) { h.busy--; h.lastUsed = Date.now(); } }
 }

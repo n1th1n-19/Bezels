@@ -65,6 +65,7 @@ export async function runMcp() {
   });
   tool('screenshot', 'Screenshot one device. Returns a downscaled preview image and the full-res PNG path (also shown in the user\'s screenshot tray).', {
     session, fullPage: z.boolean().optional(), framed: z.boolean().optional().describe('Composite the device mockup around it'), background: z.enum(['transparent', 'solid']).optional(), scale: z.enum(['css', 'device']).optional(),
+    fast: z.boolean().optional().describe('Bulk mode: plain, CSS scale, no thumbnail. Use for many captures; framed device-scale shots for review.'),
   }, async (a) => imgReply(await call('screenshot', { ...a, preview: true })));
   tool('screenshot_matrix', 'Contact sheet of many devices (framed). Runs sequentially in the background without opening sessions.', {
     url: z.string(), devices: devices.optional(), category: z.string().optional(), fullPage: z.boolean().optional(), framed: z.boolean().optional(),
@@ -77,8 +78,16 @@ export async function runMcp() {
       dx: z.number().optional(), dy: z.number().optional(), to: z.union([z.enum(['top', 'bottom']), z.number()]).optional(), text: z.string().optional(), key: z.string().optional(), scale: z.number().optional(), url: z.string().optional(), ms: z.number().optional(),
     }),
   });
-  tool('audit_layout', 'Layout issues on one device as JSON: horizontal overflow, elements wider than viewport, tap targets < 44px, text < 12px, content under notch / browser bars / home indicator / Telegram UI, overlapping fixed elements, unscaled images, 100vh misuse, Telegram API/version problems.', { session });
-  tool('audit_all', 'Run the layout audit across many devices (sequential, background). Returns issues per device.', { url: z.string(), devices: devices.optional() });
+  const rules = z.object({
+    minTextPx: z.number().describe('Smallest acceptable font size (default 12)'),
+    minTapPx: z.number().describe('Smallest acceptable tap area, measured by what a tap actually hits (default 44)'),
+    ignore: z.array(z.string()).describe('Selectors to skip, e.g. site shell or decoration: ["header.site-nav", ".bg-art"]'),
+    clippedIsIntended: z.boolean().describe('Content cropped by an overflow:hidden container is intended (default true)'),
+    disable: z.array(z.string()).describe('Check types to turn off, e.g. ["small-text","image-oversized"]'),
+  }).partial();
+  tool('audit_layout', 'Layout issues on one device as JSON. Checks: text overlapping text, text cut off with "…", controls/headings partly cut off by an overflow:hidden ancestor, collapsed containers, horizontal overflow, tap targets smaller than minTapPx (by real hit area), text below minTextPx, content under notch / browser bars / home indicator / Telegram UI, overlapping fixed elements, unscaled images, plain 100vh on mobile, Telegram API/version problems. Uses the saved audit_rules for the site; `rules` overrides them for this call.', { session, rules: rules.optional() });
+  tool('audit_all', 'Run the layout audit across many devices (sequential, background). Returns issues per device. `rules` as in audit_layout.', { url: z.string(), devices: devices.optional(), rules: rules.optional() });
+  tool('audit_rules', 'Get or save audit rules for a site (stored per origin, used by every audit of that site). Pass `rules` to save (merged into existing), `rules: null` to reset to defaults, omit to read.', { target: z.string().describe('A session id or a URL of the site'), rules: rules.nullable().optional() });
   tool('console_logs', 'Console messages (focused device: all levels; others: errors/warnings).', { session, level: z.enum(['log', 'info', 'warning', 'warn', 'error', 'debug']).optional(), text: z.string().optional(), limit: z.number().optional() });
   tool('network_errors', 'Failed requests and HTTP ≥ 400.', { session });
   tool('network_log', 'Request table. filter.type: fetch|xhr|js|css|img|font|doc|ws.', { session, type: z.string().optional(), text: z.string().optional(), limit: z.number().optional() });

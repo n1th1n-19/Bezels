@@ -149,13 +149,37 @@ initData is **unsigned** by default, so server-side validation fails on purpose.
 
 ## Screenshots
 
-Per device: screen or full page, framed or plain, transparent or solid, 1× or device DPR. **C** copies to the clipboard, **S** saves, **Shift+S** copies a contact sheet of the whole set. Files land in `./shots/` (`2026-11-06_iphone-16-pro_portrait.png`), and Claude Code's captures appear in the same tray.
+Per device: screen or full page, framed or plain, transparent or solid, 1× or device DPR. **C** copies to the clipboard, **S** saves, **Shift+S** copies a contact sheet of the whole set. Files land in `~/.cache/bezels/shots/` (`2026-11-06_iphone-16-pro_portrait.png`; change it with `shotsDir` in Settings or `BEZELS_SHOTS_DIR`), and Claude Code's captures appear in the same tray. `bezels shot --out ./dir` copies them where you want.
+
+For bulk runs, `screenshot` with `fast: true` skips the frame, device scale and thumbnail: about 30 ms instead of about 300 ms.
 
 ![Contact sheet: Generic 360, Galaxy Z Fold 6, Galaxy Tab S9, Laptop 1366](https://raw.githubusercontent.com/n1th1n-19/Bezels/main/docs/contact-sheet.png)
 
 ## Full screen
 
 **Z** (or the expand button in the top bar) hides every panel: top bar, device list, side panel, DevTools, screenshot tray. The device fills the window and may grow past 100%. A small pill (device ‹ ›, rotate, copy screenshot, browser full screen, exit) fades out while the mouse is still. **g z** also hides the browser's own UI. **Esc** or **Z** brings the panels back; the mode is remembered across reloads.
+
+## Layout audit
+
+`audit_layout` (one device), `audit_all` (many) and **A** / **Shift+A** in the UI check for:
+
+- text overlapping text, text cut off with "…", controls or headings partly hidden by an `overflow:hidden` box, containers collapsed to a sliver;
+- horizontal overflow, tap targets below the minimum (measured by what a tap actually hits, so invisible enlarged hit areas count), small text;
+- content under the notch, browser bars, home indicator or Telegram UI; overlapping fixed bars; unscaled images; plain `100vh` on mobile (`dvh`/`svh` are fine);
+- Telegram: API calls above the selected version, vertical swipes left on, `ready()` never called.
+
+Rules are per site and saved with `audit_rules`:
+
+```js
+audit_rules({ target: "http://localhost:3000", rules: {
+  minTextPx: 11, minTapPx: 44,
+  ignore: ["header.site-nav", ".bottom-bar", ".bg-art"],   // site shell, decoration
+  clippedIsIntended: true,                                // content cropped by overflow:hidden is on purpose
+  disable: ["image-oversized"]
+}})
+```
+
+`audit_layout` and `audit_all` also take `rules` for a one-off override.
 
 ## Keyboard
 

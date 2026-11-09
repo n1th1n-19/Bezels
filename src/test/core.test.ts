@@ -121,3 +121,42 @@ test('end-to-end: iPhone on WebKit (required in CI; skipped locally if WebKit sy
     assert.ok(shot.w > 0 && shot.h > 0);
   } finally { await core.shutdown(); }
 });
+
+test('audit: overlap, ellipsis, cut-off control, collapsed box found; dvh, cropped decoration, enlarged hit area not flagged; rules apply', { timeout: 90_000 }, async () => {
+  const { Core } = await import('../core/core.js');
+  const core = new Core();
+  try {
+    const fixture = 'file://' + resolve(dirname(fileURLToPath(import.meta.url)), '../../test/fixture/audit.html');
+    const [s] = await core.open(fixture, 'pixel-9', 'cli');
+    const issues = await core.audit(s!.id, { ignore: [], minTextPx: 12 });
+    const of = (t: string) => issues.filter((i) => i.type === t);
+    for (const t of ['text-overlap', 'truncated', 'clipped', 'collapsed']) assert.ok(of(t).length, `missing ${t}: ${issues.map((i) => i.type).join()}`);
+    assert.ok(of('clipped').some((i) => /START/.test(i.message)), 'START button reported as cut off');
+    assert.ok(!issues.some((i) => i.type === 'vh'), 'min-height:100dvh must not be flagged');
+    assert.ok(!issues.some((i) => (i.type === 'too-wide' || i.type === 'image-overflow') && /deco|img/.test(i.selector ?? '')), 'cropped decoration must not be flagged');
+    const taps = of('tap-target').map((i) => i.selector ?? '');
+    assert.ok(taps.some((x) => x.includes('small')), 'genuinely small button flagged');
+    assert.ok(!taps.some((x) => x.includes('hit')), 'button with a 46px hit area must not be flagged');
+    assert.ok(of('small-text').some((i) => /eleven|shell|nav/.test(i.selector ?? '')));
+    // Project rules: 11px is fine here, and the site shell is ignored.
+    const ruled = await core.audit(s!.id, { minTextPx: 11, ignore: ['.shell'] });
+    assert.ok(!ruled.some((i) => i.type === 'small-text'), ruled.filter((i) => i.type === 'small-text').map((i) => i.message).join());
+  } finally { await core.shutdown(); }
+});
+
+test('busy pages are never closed by the memory budget mid-call', { timeout: 120_000 }, async () => {
+  const { Core } = await import('../core/core.js');
+  const { dispatch } = await import('../core/rpc.js');
+  const core = new Core();
+  core.cfg.maxMemoryMB = 1; // force the budget job to want to close everything
+  try {
+    const fixture = 'file://' + resolve(dirname(fileURLToPath(import.meta.url)), '../../test/fixture/index.html');
+    const opened = (await dispatch(core, 'open', { url: fixture, devices: ['pixel-9', 'galaxy-s25', 'android-360'] }, 'mcp')) as { id: string }[];
+    const slow = 'await new Promise((r) => setTimeout(r, 2500)); return document.title';
+    const runs = opened.map((s) => dispatch(core, 'eval', { session: s.id, js: slow }, 'mcp'));
+    await new Promise((r) => setTimeout(r, 400));
+    await core.enforceBudget(); // would previously close the non-focused pages under the running evals
+    const results = await Promise.all(runs);
+    for (const r of results) assert.match(String(r), /fixture/i);
+  } finally { await core.shutdown(); }
+});

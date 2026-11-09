@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit fixture</title>
+<style>
+  body { margin: 0; font: 16px/1.4 system-ui, sans-serif; }
+  section { position: relative; margin: 12px; }
+  /* text overlapping text */
+  .ov { height: 40px; }
+  .ov span { position: absolute; left: 0; top: 0; font-size: 18px; }
+  /* truncated with ellipsis */
+  .title { width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* control partly cut off by an overflow:hidden panel */
+  .panel { height: 64px; overflow: hidden; background: #eee; }
+  .panel button { margin-top: 40px; width: 160px; height: 48px; }
+  /* collapsed container */
+  .board { height: 30px; overflow: hidden; }
+  .board div { height: 60px; }
+  /* uses dvh correctly: must NOT be flagged */
+  .screen { min-height: 100dvh; }
+  /* decoration cropped on purpose: must NOT be flagged */
+  .deco { overflow: hidden; height: 60px; }
+  /* small visible box but a 46px hit area: must NOT be flagged */
+  .hit { position: relative; width: 30px; height: 30px; }
+  .hit::before { content: ''; position: absolute; inset: -10px; } /* padding box 26px + 20 = 46px */
+  /* genuinely small */
+  .small { width: 24px; height: 24px; }
+  .eleven { font-size: 11px; }
+  .shell a { font-size: 9px; }
+</style>
+</head>
+<body>
+  <nav class="shell"><a href="#">site nav</a></nav>
+  <div class="screen">
+    <section class="ov"><span class="a">Total won</span><span class="b">Players online</span></section>
+    <section><div class="title">Beat the dealer, hit twenty-one</div></section>
+    <section class="panel"><button>START</button></section>
+    <section class="board"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div></section>
+    <section class="deco"><img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='60'%3E%3Crect width='900' height='60' fill='%23ccd'/%3E%3C/svg%3E"></section>
+    <section><button class="hit" aria-label="info">i</button> <button class="small" aria-label="close">x</button></section>
+    <section><p class="eleven">Eleven pixel caption</p></section>
+  </div>
+</body>
+</html>

@@ -154,7 +154,7 @@ export function Tray() {
       <div className="flex gap-2.5 flex-1 min-w-0 overflow-x-auto py-0.5">
         {shots.slice(0, 20).map((m, i) => (
           <div key={m.id} className={cx('flex items-center gap-2 pl-1 pr-1.5 py-1 rounded-lg border bg-raised shrink-0', i === 0 ? 'border-accent' : 'border-line')}>
-            <img src={`/shots/.thumbs/${encodeURIComponent(m.thumb)}`} alt="" loading="lazy" className="h-[52px] w-auto max-w-[80px] rounded-md object-contain bg-bg" />
+            <img src={m.thumb ? `/shots/.thumbs/${encodeURIComponent(m.thumb)}` : `/shots/${encodeURIComponent(m.file)}`} alt="" loading="lazy" className="h-[52px] w-auto max-w-[80px] rounded-md object-contain bg-bg" />
             <div className="flex flex-col"><span className="text-xs max-w-[140px] truncate">{m.label}</span><span className="text-[11px] text-muted">{m.kind === 'sheet' ? 'contact sheet' : m.framed ? 'framed' : 'plain'}{m.fullPage ? ' · full page' : ''} · {m.source === 'mcp' ? 'by Claude Code' : new Date(m.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>
             <Btn variant="raised" size="icon" label="Copy to clipboard" className="!border-0" onClick={() => copyShotMeta(m)}>{I.copy}</Btn>
             <Btn variant="ghost" size="icon" label="Save PNG" onClick={() => download(m)}>{I.save}</Btn>

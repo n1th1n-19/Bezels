@@ -105,6 +105,8 @@ export class Host {
   }
 
   lastError?: string;
+  /** Calls currently using this page. A busy page is never frozen or closed by the budget/live-limit jobs. */
+  busy = 0;
   /** Major version of the Chromium actually running, so Chrome UAs never go stale. */
   chromeMajor?: string;
 
@@ -409,22 +411,24 @@ export class Host {
   async active(): Promise<Page> {
     this.lastUsed = Date.now();
     if (this.building) await this.building;
-    if (!this.page || this.status === 'evicted') await this.build();
+    if (!this.page || this.page.isClosed() || this.status === 'evicted') await this.build();
     if (this.status === 'frozen') {
       await this.cdp?.send('Page.setWebLifecycleState', { state: 'active' }).catch(() => {});
       this.status = 'live';
     }
-    return this.page!;
+    if (!this.page || this.page.isClosed()) throw new Error(`${this.device.name}: the page could not be reopened${this.lastError ? `: ${this.lastError}` : ''}.`);
+    return this.page;
   }
 
   async freeze() {
-    if (this.status !== 'live' || this.subs.size) return;
+    if (this.status !== 'live' || this.subs.size || this.busy) return;
     await this.takeSnapshot();
     if (this.cdp) { await this.cdp.send('Page.setWebLifecycleState', { state: 'frozen' }).catch(() => {}); this.status = 'frozen'; }
   }
 
-  async evict() {
-    if (this.status === 'evicted') return;
+  /** Close the browser context to free memory. Skipped while a call is using the page, unless forced (close/shutdown). */
+  async evict(force = false) {
+    if (this.status === 'evicted' || (this.busy && !force)) return;
     await this.takeSnapshot();
     this.stopCast();
     const ctx = this.ctx;
@@ -433,7 +437,7 @@ export class Host {
     if (ctx) { await ctx.close().catch(() => {}); this.env.release(this.engine); }
   }
 
-  async close() { this.subs.clear(); await this.evict(); }
+  async close() { this.subs.clear(); await this.evict(true); }
 
   async takeSnapshot() {
     if (!this.page || this.status !== 'live') return;

@@ -12,9 +12,9 @@ import { DEFAULT_KEYMAP, keymapConflicts } from '../shared/keymap.js';
 import { EnginePool } from './engine.js';
 import { Host, contextKey, type Action, type FrameSub } from './host.js';
 import { Compositor, ShotStore, extendLayout, framedHtml, sheetHtml } from './capture.js';
-import { auditPage, breakpoints, domTree, inspectEl, overlay, script, storageOp, tabOrder, type AuditOpts, type OverlayItem } from './inpage.js';
+import { DEFAULT_RULES, auditPage, breakpoints, domTree, inspectEl, overlay, script, storageOp, tabOrder, type AuditOpts, type AuditRules, type OverlayItem } from './inpage.js';
 import { sampleMemory } from './memory.js';
-import { type Config, envValue, loadConfig, loadCustomDevices, loadKeymap, saveConfig, saveCustomDevices, saveKeymap } from './config.js';
+import { type Config, envValue, loadAuditRules, loadConfig, loadCustomDevices, loadKeymap, saveAuditRules, saveConfig, saveCustomDevices, saveKeymap } from './config.js';
 import { copyImageToClipboard } from './clipboard.js';
 import { SourceMapConsumer } from 'source-map-js';
 
@@ -192,7 +192,7 @@ export class Core extends EventEmitter {
     const now = Date.now();
     for (const h of this.hosts) if (!keep.has(h) && !h.hasSubscribers() && h.status !== 'evicted' && now - h.lastUsed > this.cfg.idleCloseMs) await h.evict();
     let st = this.stats();
-    const victims = [...this.hosts].filter((h) => !keep.has(h) && !h.hasSubscribers() && h.status !== 'evicted').sort((a, b) => a.lastUsed - b.lastUsed);
+    const victims = [...this.hosts].filter((h) => !keep.has(h) && !h.hasSubscribers() && !h.busy && h.status !== 'evicted').sort((a, b) => a.lastUsed - b.lastUsed);
     while (st.totalMB > this.cfg.maxMemoryMB && victims.length) { await victims.shift()!.evict(); st = this.stats(); }
     this.emit('event', 'stats', st);
   }
@@ -244,6 +244,27 @@ export class Core extends EventEmitter {
     s.issues = null;
     this.broadcastSessions();
     return this.info(s);
+  }
+
+  /** Hosts a call will touch, so they can be marked busy for its duration. */
+  hostsFor(p: any): Host[] {
+    if (!p) return [];
+    if (p.session === 'all') return [...this.hosts];
+    const ids: string[] = [...(typeof p.session === 'string' ? [p.session] : []), ...(Array.isArray(p.sessions) ? p.sessions : [])];
+    const out: Host[] = [];
+    for (const id of ids) { try { out.push(this.get(id).host); } catch { /* unknown id: the call reports it */ } }
+    return out;
+  }
+
+  /** Turn Playwright's low-level errors into ones that say what happened and what to do. */
+  explain(e: unknown, method: string, session?: string): Error {
+    const msg = (e as Error)?.message ?? String(e);
+    const who = session && this.sessions.has(session) ? `${this.get(session).device.name} (${session})` : session ?? 'this session';
+    if (/Execution context was destroyed|navigation|frame was detached/i.test(msg))
+      return new Error(`${method} on ${who}: the page navigated or reloaded while it ran (a hot reload, a redirect, or a click that changed page). The session is still open; run it again, or wait for the page to settle first.\n(${msg.split('\n')[0]})`);
+    if (/has been closed|Target closed|reading 'evaluate'|Browser has been closed|could not be reopened/i.test(msg))
+      return new Error(`${method} on ${who}: the page was closed while it ran. It reopens automatically at its last URL on the next call; run it again. If this keeps happening, raise maxMemoryMB in Settings or open fewer devices at once.\n(${msg.split('\n')[0]})`);
+    return e instanceof Error ? e : new Error(msg);
   }
 
   async navigate(target: string, url: string) {
@@ -300,10 +321,12 @@ export class Core extends EventEmitter {
   // ---------------- screenshots ----------------
   private frameInput(s: Session) { return { device: s.device, state: s.host.state, layout: s.host.layout, url: s.host.url, tg: s.host.tg, title: s.host.title || 'Mini App' }; }
 
-  async screenshot(id: string, o: ScreenshotOptions & { source?: Source; label?: string } = {}): Promise<ShotMeta & { path: string }> {
+  async screenshot(id: string, o: ScreenshotOptions & { source?: Source; label?: string } = {}): Promise<ShotMeta & { path: string; ms: number }> {
+    const t0 = Date.now();
     const s = this.get(id);
     const page = await s.host.active();
-    return this.capturePage(page, this.frameInput(s), o);
+    const o2 = o.fast ? { ...o, framed: false, scale: 'css' as const } : o;
+    return { ...(await this.capturePage(page, this.frameInput(s), o2)), ms: Date.now() - t0 };
   }
 
   private async capturePage(page: Page, f: ReturnType<Core['frameInput']>, o: ScreenshotOptions & { source?: Source; label?: string }): Promise<ShotMeta & { path: string }> {
@@ -320,16 +343,18 @@ export class Core extends EventEmitter {
       await this.compositor.render({ html: h.html, files: { 'shot.png': raw }, width: h.w, height: h.h, scale, transparent, out });
       unlinkSync(raw);
     }
-    return this.registerShot(out, { label: o.label ?? f.device.name, deviceId: f.device.id, framed: !!o.framed, fullPage: !!o.fullPage, kind: 'device', source: o.source ?? 'ui' });
+    return this.registerShot(out, { label: o.label ?? f.device.name, deviceId: f.device.id, framed: !!o.framed, fullPage: !!o.fullPage, kind: 'device', source: o.source ?? 'ui' }, !o.fast);
   }
 
-  private async registerShot(file: string, m: Omit<ShotMeta, 'id' | 'file' | 'thumb' | 'time' | 'w' | 'h'>): Promise<ShotMeta & { path: string }> {
+  private async registerShot(file: string, m: Omit<ShotMeta, 'id' | 'file' | 'thumb' | 'time' | 'w' | 'h'>, withThumb = true): Promise<ShotMeta & { path: string }> {
     const sz = pngSize(file);
     const base = file.split('/').pop()!;
     const thumb = this.shots.thumbPath(base);
-    const th = 120, tw = Math.max(20, Math.round((sz.w / sz.h) * th));
-    await this.compositor.render({ html: `<!doctype html><body style="margin:0"><img src="http://bezels.local/i.png" style="width:${tw}px;height:${th}px;display:block">`, files: { 'i.png': file }, width: tw, height: th, scale: 1, transparent: false, out: thumb, type: 'jpeg', quality: 70 });
-    const meta: ShotMeta = { id: base.replace(/\.png$/, ''), file: base, thumb: thumb.split('/').pop()!, time: Date.now(), w: sz.w, h: sz.h, ...m };
+    if (withThumb) {
+      const th = 120, tw = Math.max(20, Math.round((sz.w / sz.h) * th));
+      await this.compositor.render({ html: `<!doctype html><body style="margin:0"><img src="http://bezels.local/i.png" style="width:${tw}px;height:${th}px;display:block">`, files: { 'i.png': file }, width: tw, height: th, scale: 1, transparent: false, out: thumb, type: 'jpeg', quality: 70 });
+    }
+    const meta: ShotMeta = { id: base.replace(/\.png$/, ''), file: base, thumb: withThumb ? thumb.split('/').pop()! : '', time: Date.now(), w: sz.w, h: sz.h, ...m };
     this.shots.add(meta);
     this.emit('event', 'shot', meta);
     return { ...meta, path: file };
@@ -434,19 +459,43 @@ export class Core extends EventEmitter {
   }
 
   // ---------------- audits ----------------
-  private auditOpts(d: Device, s: DeviceState, L: Layout, tgSwipes: boolean): AuditOpts {
+  /** Effective audit rules for a URL: defaults ← saved rules for its origin ← per-call override. */
+  rulesFor(url: string, override?: Partial<AuditRules>): AuditRules {
+    const saved = loadAuditRules()[originOf(url)] ?? {};
+    return { ...DEFAULT_RULES, ...saved, ...(override ?? {}) } as AuditRules;
+  }
+  auditRules(target: string) {
+    const origin = this.sessions.has(target) ? originOf(this.get(target).host.url) : originOf(normalizeUrl(target));
+    return { origin, rules: this.rulesFor(origin), defaults: DEFAULT_RULES, saved: loadAuditRules()[origin] ?? null };
+  }
+  setAuditRules(target: string, rules: Partial<AuditRules> | null) {
+    const origin = this.sessions.has(target) ? originOf(this.get(target).host.url) : originOf(normalizeUrl(target));
+    const all = loadAuditRules();
+    if (rules === null) delete all[origin];
+    else {
+      const clean: Record<string, unknown> = {};
+      for (const k of Object.keys(DEFAULT_RULES) as (keyof AuditRules)[]) if (k in rules) clean[k] = rules[k];
+      all[origin] = { ...(all[origin] ?? {}), ...clean };
+    }
+    saveAuditRules(all);
+    for (const s of this.sessions.values()) if (originOf(s.host.url) === origin) s.issues = null;
+    return this.auditRules(origin);
+  }
+
+  private auditOpts(d: Device, s: DeviceState, L: Layout, tgSwipes: boolean, rules: AuditRules): AuditOpts {
     return {
+      rules,
       touch: s.emulation.touch ?? d.touch, mobile: d.mobile, dpr: d.dpr, obstructions: obstructions(d, s, L),
       largeVh: L.largeViewportH, vh: L.viewport.h, barsLabel: s.browser === 'safari' ? 'Safari’s bars' : `${s.browser === 'samsung' ? 'Samsung Internet' : 'Chrome'}’s bars`,
       telegram: s.telegram.enabled ? { verticalSwipes: tgSwipes } : null,
     };
   }
 
-  async audit(id: string): Promise<AuditIssue[]> {
+  async audit(id: string, override?: Partial<AuditRules>): Promise<AuditIssue[]> {
     const s = this.get(id);
     const page = await s.host.active();
     const h = s.host;
-    const issues = (await page.evaluate(script(auditPage, this.auditOpts(s.device, h.state, h.layout, h.tg.verticalSwipes)))) as AuditIssue[];
+    const issues = (await page.evaluate(script(auditPage, this.auditOpts(s.device, h.state, h.layout, h.tg.verticalSwipes, this.rulesFor(h.url, override))))) as AuditIssue[];
     if (h.state.telegram.enabled) issues.push(...tgIssues(h.tgEvents, h.state.telegram.version));
     if (h.errors.console) issues.push({ severity: 'info', type: 'console', title: 'Console errors', message: `${h.errors.console} console error(s) on this device. See console_logs.` });
     if (h.errors.network) issues.push({ severity: 'info', type: 'network', title: 'Failed requests', message: `${h.errors.network} failed request(s). See network_errors.` });
@@ -456,20 +505,22 @@ export class Core extends EventEmitter {
     return issues;
   }
 
-  async auditAll(url: string | undefined, devices: string | string[] | undefined, ids?: string[]) {
+  async auditAll(url: string | undefined, devices: string | string[] | undefined, ids?: string[], override?: Partial<AuditRules>) {
     if (!url) {
       // Background audit of the open set (UI chips): sequential, using each session's real state.
       const list = ids?.length ? ids.map((i) => this.get(i)) : [...this.sessions.values()];
       const out: { session: string; device: string; issues: AuditIssue[]; error?: string }[] = [];
       for (const s of list) {
-        try { out.push({ session: s.id, device: s.device.name, issues: await this.audit(s.id) }); }
-        catch (e) { out.push({ session: s.id, device: s.device.name, issues: [], error: (e as Error).message }); }
+        try { s.host.busy++; out.push({ session: s.id, device: s.device.name, issues: await this.audit(s.id, override) }); }
+        catch (e) { out.push({ session: s.id, device: s.device.name, issues: [], error: this.explain(e, 'audit_all', s.id).message }); }
+        finally { s.host.busy--; }
         if (!this.liveHosts().has(s.host)) await s.host.freeze();
       }
       return out;
     }
     const devs = resolveDevices(devices ?? 'phones', this.allDevices());
-    const res = await this.batch(url, devs, undefined, async (page, d, s, L) => (await page.evaluate(script(auditPage, this.auditOpts(d, s, L, true)))) as AuditIssue[]);
+    const rules = this.rulesFor(normalizeUrl(url), override);
+    const res = await this.batch(url, devs, undefined, async (page, d, s, L) => (await page.evaluate(script(auditPage, this.auditOpts(d, s, L, true, rules)))) as AuditIssue[]);
     return res.map((r) => ({ device: r.device.id, name: r.device.name, issues: r.result ?? [], error: r.error }));
   }
 
@@ -786,6 +837,8 @@ export class Core extends EventEmitter {
 export function mergeState(s: DeviceState, p: Patch): DeviceState {
   return { ...s, ...p, telegram: { ...s.telegram, ...(p.telegram ?? {}) }, emulation: { ...s.emulation, ...(p.emulation ?? {}) } } as DeviceState;
 }
+
+export function originOf(u: string) { try { return new URL(u).origin; } catch { return u; } }
 
 export function normalizeUrl(u: string) {
   u = u.trim();
